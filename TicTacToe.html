@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TicTacToe</title>
+  <style>
+*{
+      margin: 0;
+      padding: 0;
+    }
+TEST 2
+ body {
+      background-color: rgb(35, 35, 35);
+      font-family: arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 1000px;
+    }
+
+    .board {
+      width: 320px;
+      height: 320px;
+      background-image: url(grid1.png);
+      background-size: cover;
+      background-color: white;
+      border-radius: 50px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .cross {
+      background-image: url(pngegg.png);
+      background-size: cover;
+      background-size: 80%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .circle {
+      background-image: url(clipart431990.png);
+      background-size: cover;
+      background-size: 80%;
+      background-position: center;
+      background-repeat: no-repeat;
+  
+    }
+  </style>
+</head>
+<body>
+  <section class="board">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </section>
+  
+<script>
+  let boardData = [
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+  ];
+
+  let playerOne = 1;
+
+  cellElements = document.querySelectorAll('.cell');
+
+  cellElements.forEach((cell,index) => {
+    cell.addEventListener('click', () => {
+      placeMarkers(index);
+    })
+  })
+
+  function placeMarkers (index){
+    let col = index % 3;
+    let row = (index - col) / 3;
+    boardData[row][col] = playerOne;
+    console.log(boardData)
+    playerTwo = playerOne *= -1;
+    if (boardData[row][col] === 0) {
+      playerTwo;
+    }
+    drawMarker();
+  }
+
+  function drawMarker () {
+    cellElements.forEach((cell, index) => {
+      let col = index % 3;
+      let row = Math.floor(index / 3);
+
+      if (boardData[row][col] === 1) {
+        cell.classList.add('cross');
+      }
+      else if (boardData[row][col] === -1){
+        cell.classList.add('circle');
+
+      }
+    });
+  }
+</script>
+</body>
+
+</html>
