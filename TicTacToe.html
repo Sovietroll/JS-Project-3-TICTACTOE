@@ -60,6 +60,10 @@
   </section>
   
 <script>
+//make a startup screen if you are X or O 
+//make a game with cpu 
+//css will be the last 
+
   let boardData = [
     [0,0,0],
     [0,0,0],
@@ -119,6 +123,16 @@
       boardData[row][0] === 2 &&
       boardData[row][1] === 2 &&
       boardData[row][2] === 2
+      )
+      
+      {
+        alert('Win');
+      } 
+
+      else if (
+      boardData[row][0] === 3 &&
+      boardData[row][1] === 3 &&
+      boardData[row][2] === 3
       )
       
       {
