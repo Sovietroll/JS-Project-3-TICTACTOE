@@ -106,15 +106,25 @@
 
   function winningCombination() {
     for (let row = 0; row < 3; row++) {
-      if (boardData[row][0] === 1 &&
+      if (
+      boardData[row][0] === 1 &&
       boardData[row][1] === 1 &&
-      boardData [row][2] === 1) {
-        alert('Win')
+      boardData[row][2] === 1 
+      ) 
+
+      {
+        alert('Win');
       }
-      else {
-      }
+      else if (
+      boardData[row][0] === 2 &&
+      boardData[row][1] === 2 &&
+      boardData[row][2] === 2
+      )
+      
+      {
+        alert('Win');
+      } 
     }
-  
   }
 </script>
 </body>
