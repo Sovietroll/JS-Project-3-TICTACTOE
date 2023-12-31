@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
 
   <title>TicTacToe</title>
@@ -14,7 +12,7 @@
       padding: 0;
     }
  body {
-      background-color: rgb(70, 26, 26);
+      background-color: rgb(32, 27, 27);
       font-family: arial;
       display: flex;
       justify-content: center;
@@ -35,21 +33,39 @@
     .cross {
       background-image: url(pngegg.png);
       background-size: cover;
-      background-size: 80%;
+      background-size: 50%;
       background-position: center;
       background-repeat: no-repeat;
     }
     .circle {
       background-image: url(clipart431990.png);
       background-size: cover;
-      background-size: 80%;
+      background-size: 50%;
       background-position: center;
       background-repeat: no-repeat;
-  
+    }
+
+    .ttt-css {
+      position: absolute;
+      top: 250px;
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+    }
+    .css-reset {
+      width: 150px;
+      border-style: none;
+      border-radius: 10px;
+      font-size: 30px;
+    }
+    .css-reset:hover {
+      background: red;
     }
   </style>
 </head>
 <body>
+<p class="ttt-css">TESTING</p>
+
   <section class="board">
     <div class="cell"></div>
     <div class="cell"></div>
@@ -61,21 +77,23 @@
     <div class="cell"></div>
     <div class="cell"></div>
   </section>
+  <button class="css-reset js-reset">RESET</button>
   
-<script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-  showAlert();
-  //use ShowAlertLibary2, custom since alert is limit to customization 
+<script>
+  resetButton = document.querySelector('.js-reset');
+  resetButton.addEventListener('click', () => {
+    resetScore()
+  })
 
-  function showAlert(){
-    Swal.fire({
-      title: 'Custom alert',
-      html: <button id="customButton" class='alert-button'>Click Me!</button>,
-      showCancelButton: false,
-      showConfirmButton: false, 
-      allowOutsideClick: false,
-    })
+  function resetScore(){
+    let boardData = [
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]
+  ];
   }
 
+ //make it compatible with ShowAlert2 
 //make a startup screen if you are X or O 
 //make a game with cpu 
 //css will be the last 
