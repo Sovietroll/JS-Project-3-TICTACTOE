@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
+
   <title>TicTacToe</title>
   <style>
-    test 
-*{
+  *{
       margin: 0;
       padding: 0;
     }
  body {
-      background-color: rgb(110, 110, 110);
+      background-color: rgb(70, 26, 26);
       font-family: arial;
       display: flex;
       justify-content: center;
@@ -59,7 +62,20 @@
     <div class="cell"></div>
   </section>
   
-<script>
+<script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+  showAlert();
+  //use ShowAlertLibary2, custom since alert is limit to customization 
+
+  function showAlert(){
+    Swal.fire({
+      title: 'Custom alert',
+      html: <button id="customButton" class='alert-button'>Click Me!</button>,
+      showCancelButton: false,
+      showConfirmButton: false, 
+      allowOutsideClick: false,
+    })
+  }
+
 //make a startup screen if you are X or O 
 //make a game with cpu 
 //css will be the last 
@@ -138,6 +154,18 @@
       {
         alert('Win');
       } 
+    }
+  }
+
+  function winningCombination2 () {
+    for (let col = 0; col < 3; col++) {
+      if (
+      boardData[col][0] === 1 &&
+      boardData[col][0] === 1 &&
+      boardData[col][0] === 1)
+      {
+        alert('Win')
+      }
     }
   }
 </script>
