@@ -1,192 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
-  <title>TicTacToe</title>
-  <style>
-  *{
-      margin: 0;
-      padding: 0;
-    }
- body {
-      background-color: rgb(32, 27, 27);
-      font-family: arial;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 1000px;
-    }
-
-    .board {
-      width: 320px;
-      height: 320px;
-      background-image: url(grid1.png);
-      background-size: cover;
-      background-color: white;
-      border-radius: 50px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .cross {
-      background-image: url(pngegg.png);
-      background-size: cover;
-      background-size: 50%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    .circle {
-      background-image: url(clipart431990.png);
-      background-size: cover;
-      background-size: 50%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    .ttt-css {
-      position: absolute;
-      top: 250px;
-      color: white;
-      font-size: 50px;
-      font-weight: bold;
-    }
-    .css-reset {
-      width: 150px;
-      border-style: none;
-      border-radius: 10px;
-      font-size: 30px;
-    }
-    .css-reset:hover {
-      background: red;
-    }
-  </style>
-</head>
-<body>
-<p class="ttt-css">TESTING</p>
-
-  <section class="board">
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-  </section>
-  <button class="css-reset js-reset">RESET</button>
-  
-<script>
-  resetButton = document.querySelector('.js-reset');
-  resetButton.addEventListener('click', () => {
-    resetScore()
-  })
-
-  function resetScore(){
-    let boardData = [
-    [0,0,0],
-    [0,0,0],
-    [0,0,0]
-  ];
-  }
-
- //make it compatible with ShowAlert2 
-//make a startup screen if you are X or O 
-//make a game with cpu 
-//css will be the last 
-
-  let boardData = [
-    [0,0,0],
-    [0,0,0],
-    [0,0,0]
-  ];
-
-  let playerOne = 1;
-
-  cellElements = document.querySelectorAll('.cell');
-
-  cellElements.forEach((cell,index) => {
-    cell.addEventListener('click', () => {
-      placeMarkers(index);
-    })
-  })
-
-  function placeMarkers (index){
-    let col = index % 3;
-    let row = (index - col) / 3;
-    boardData[row][col] = playerOne;
-    console.log(boardData)
-    playerTwo = playerOne *= -1;
-    if (boardData[row][col] === 0) {
-      playerTwo;
-    }
-    drawMarker();
-    winningCombination ();
-  }
-
-  function drawMarker () {
-    cellElements.forEach((cell, index) => {
-      let col = index % 3;
-      let row = Math.floor(index / 3);
-
-      if (boardData[row][col] === 1) {
-        cell.classList.add('cross');
+    <title>TicTacToe</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
       }
-      else if (boardData[row][col] === -1){
-        cell.classList.add('circle');
-
+      body {
+        background-color: rgb(32, 27, 27);
+        font-family: arial;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1000px;
       }
-    });
-  }
 
-  function winningCombination() {
-    for (let row = 0; row < 3; row++) {
-      if (
-      boardData[row][0] === 1 &&
-      boardData[row][1] === 1 &&
-      boardData[row][2] === 1 
-      ) 
-
-      {
-        alert('Win');
+      .board {
+        width: 320px;
+        height: 320px;
+        background-image: url(grid1.png);
+        background-size: cover;
+        background-color: white;
+        border-radius: 50px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
       }
-      else if (
-      boardData[row][0] === 2 &&
-      boardData[row][1] === 2 &&
-      boardData[row][2] === 2
-      )
-      
-      {
-        alert('Win');
-      } 
-
-      else if (
-      boardData[row][0] === 3 &&
-      boardData[row][1] === 3 &&
-      boardData[row][2] === 3
-      )
-      
-      {
-        alert('Win');
-      } 
-    }
-  }
-
-  function winningCombination2 () {
-    for (let col = 0; col < 3; col++) {
-      if (
-      boardData[col][0] === 1 &&
-      boardData[col][0] === 1 &&
-      boardData[col][0] === 1)
-      {
-        alert('Win')
+      .cross {
+        background-image: url(pngegg.png);
+        background-size: cover;
+        background-size: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
       }
-    }
-  }
-</script>
-</body>
+      .circle {
+        background-image: url(clipart431990.png);
+        background-size: cover;
+        background-size: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
 
+      .ttt-css {
+        position: absolute;
+        top: 250px;
+        color: white;
+        font-size: 50px;
+        font-weight: bold;
+      }
+      .css-reset {
+        width: 150px;
+        border-style: none;
+        border-radius: 10px;
+        font-size: 30px;
+      }
+      .css-reset:hover {
+        background: red;
+      }
+      .resetButtonAfter {
+        background: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <!--Score tracking, update DOM here-->
+    <p class="ttt-css">TESTING</p>
+    <p1 class="js-win">Win = </p1>
+    <p1 class="js-loss">Loss = </p1>
+    <p1 class="js-tie">Tie = </p1>
+
+    <section class="board">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </section>
+    <button class="css-reset js-reset">RESET</button>
+
+    <script>
+      //make a startup screen if you are X or O
+      //make a game with cpu
+      //css will be the last
+
+      let boardData = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+      ];
+
+      let playerOne = 1;
+
+      cellElements = document.querySelectorAll(".cell");
+
+      cellElements.forEach((cell, index) => {
+        cell.addEventListener("click", () => {
+          placeMarkers(index);
+        });
+      });
+
+      function placeMarkers(index) {
+        let col = index % 3;
+        let row = (index - col) / 3;
+        boardData[row][col] = playerOne;
+        playerTwo = playerOne *= -1;
+
+        if (boardData[row][col] === 0) {
+          playerTwo;
+        } else if (boardData[row][col] === 1) {
+          playerOne;
+        } else if (boardData[row][col] === -1) {
+          playerTwo;
+        }
+        drawMarker();
+        checkResult();
+        console.log(boardData);
+      }
+
+      function drawMarker() {
+        cellElements.forEach((cell, index) => {
+          let col = index % 3;
+          let row = Math.floor(index / 3);
+
+          if (boardData[row][col] === 1) {
+            cell.classList.add("cross");
+          } else if (boardData[row][col] === -1) {
+            cell.classList.add("circle");
+          }
+        });
+      }
+
+      resetButton = document.querySelector(".js-reset");
+      resetButton.addEventListener("click", () => {
+        resetScore(), resetButton.classList.add("resetButtonAfter");
+      });
+
+      function resetScore() {
+        for (let row = 0; row < 3; row++) {
+          for (let col = 0; col < 3; col++) {
+            boardData[row][col] = 0;
+          }
+        }
+      }
+
+      function checkResult() {
+        for (let i = 0; i < 3; i++) {
+          let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
+          let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
+
+          let diagonalSumOne =
+            boardData[0][0] + boardData[1][1] + boardData[2][2];
+          let diagonalSumTwo =
+            boardData[2][0] + boardData[1][1] + boardData[0][2];
+
+          if (rowSum === 3 || colSum === 3) {
+            console.log("player 1 wins");
+          } else if (rowSum === -3 || colSum === -3) {
+            console.log("player 2 wins");
+          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+            console.log("player 1 wins");
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+            console.log("player 2 wins");
+          }
+          //put function to reset if either player wins
+        }
+
+        //issue how to tie if no player wins
+        let isTie = true;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++)
+            if (boardData[i][j] !== 1 && boardData[i][j] !== -1) {
+              isTie = false;
+              break;
+            }
+        }
+        if (isTie) {
+          //isTie means if isTie is still true after the cell all filled
+          alert("Tie");
+        }
+      }
+    </script>
+  </body>
 </html>
