@@ -14,6 +14,7 @@
         background-color: rgb(32, 27, 27);
         font-family: arial;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 1000px;
@@ -51,26 +52,46 @@
         font-size: 50px;
         font-weight: bold;
       }
-      .css-reset {
-        width: 150px;
+      /*Use inline-grid to create 3 sections for reset buttons*/
+      .css-reset-game, .css-reset-score {
+        display: inline-block;
+        margin-top: 20px;
+        width: 250px;
+        height: 50px;
         border-style: none;
-        border-radius: 10px;
+        border-radius: 30px;
         font-size: 30px;
+        background-color: rgb(5, 200, 247);
       }
-      .css-reset:hover {
-        background: red;
+      .css-reset-game:hover, .css-reset-score:hover {
+        background-color: rgb(0, 156, 196);
       }
-      .resetButtonAfter {
-        background: yellow;
+
+      .css-reset-game:active, .css-reset-score:active {
+        background-color: rgb(77, 219, 255);
+        padding: 10px;
+      }
+
+
+      .container-score {
+        color: rgb(255, 0, 0);
+        position: absolute;
+        bottom: 100px;
+        font-size: 30px;
       }
     </style>
   </head>
   <body>
     <!--Score tracking, update DOM here-->
     <p class="ttt-css">TESTING</p>
-    <p1 class="js-win">Win = </p1>
-    <p1 class="js-loss">Loss = </p1>
-    <p1 class="js-tie">Tie = </p1>
+    <div class="container-score">
+
+     <p1 class="js-wins css-wins">Player 1 Wins =</p1>
+    <p1 class="js-loss">BBBB</p1>
+    <p1 class="js-tie">CCCC</p1>
+
+    </div>
+
 
     <section class="board">
       <div class="cell"></div>
@@ -83,12 +104,19 @@
       <div class="cell"></div>
       <div class="cell"></div>
     </section>
-    <button class="css-reset js-reset">RESET</button>
+    <button class="css-reset-game js-reset-game">Reset Game</button>
+    <button class="css-reset-score js-reset-score">Reset Score</button>
+    <!--Issue with button here, should be under the grid DONE-->
 
     <script>
       //make a startup screen if you are X or O
       //make a game with cpu
       //css will be the last
+
+      //done in mydin = 
+      //tie game issue 
+      //create 2 buttons 
+      //reset game (remove cross and circle)
 
       let boardData = [
         [0, 0, 0],
@@ -134,23 +162,42 @@
           } else if (boardData[row][col] === -1) {
             cell.classList.add("circle");
           }
+          else if (boardData[row][col] === 0) {
+            cell.classList.remove("cross");
+            cell.classList.remove("circle");
+          }
         });
       }
 
-      resetButton = document.querySelector(".js-reset");
+      resetButton = document.querySelector(".js-reset-game");
       resetButton.addEventListener("click", () => {
-        resetScore(), resetButton.classList.add("resetButtonAfter");
+        resetGrid();
       });
 
-      function resetScore() {
+      function resetGrid() { //make two reset button, reset score and reset game
         for (let row = 0; row < 3; row++) {
           for (let col = 0; col < 3; col++) {
             boardData[row][col] = 0;
           }
         }
+        drawMarker();
+        console.log(boardData);
       }
 
+      resetScoreButton = document.querySelector('.js-reset-score');
+      resetScoreButton.addEventListener("click", () => {resetScore()});
+
+      function resetScore() {
+        playerWins = 0;
+        winScore.innerHTML = `Player 1 Wins = ${playerWins}`;
+        resetGrid();
+      }
+
+      let playerWins = 0;
+      let winScore = document.querySelector('.js-wins');
+      
       function checkResult() {
+
         for (let i = 0; i < 3; i++) {
           let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
           let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
@@ -162,6 +209,7 @@
 
           if (rowSum === 3 || colSum === 3) {
             console.log("player 1 wins");
+            playerWins++;
           } else if (rowSum === -3 || colSum === -3) {
             console.log("player 2 wins");
           } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
@@ -169,10 +217,11 @@
           } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
             console.log("player 2 wins");
           }
-          //put function to reset if either player wins
         }
+        
+        winScore.innerHTML = `Player 1 Wins = ${playerWins}`;
 
-        //issue how to tie if no player wins
+        //issue how to tie if no player wins DONE
         let isTie = true;
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++)
@@ -184,7 +233,9 @@
         if (isTie) {
           //isTie means if isTie is still true after the cell all filled
           alert("Tie");
+          resetGrid();
         }
+          //put function to reset if either player wins DONE
       }
     </script>
   </body>
