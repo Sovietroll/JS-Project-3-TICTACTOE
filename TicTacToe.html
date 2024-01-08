@@ -10,9 +10,10 @@
       -issue Player 2 wins multiply after winning
       -make a startup screen if you are X or O FUTURE
       -after win, reset game DONE
-      -make a game with cpu FUTURE
+      -make a game with cpu FUTURE //Different file because it's complicated
       -css will be the last FUTURE 
 
+      -startup screen HALFWAY DONE
       -Fixed player score positioning DONE
       -tie game issue DONE
       -create 2 buttons DONE
@@ -31,7 +32,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 1000px;
+        height: 800px;
       }
 
       .board {
@@ -95,21 +96,60 @@
         top: 600px;
         font-size: 30px;
       }
+      .startup-container {
+        color: white;
+        padding: 10px;
+        font-size: 30px;
+        background-color: rgb(56, 149, 2);
+        width: 400px;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: fixed;
+        top: 100px;
+      }
+      .button-container {
+      }
+      .button-player-one, .button-player-two{
+        width: 100px;
+      }
+      .button-player-one:hover .buton-player-two:hover {
+        background-color: rgb(255, 93, 93);
+      }
+
+      .startup-container-two {
+        color: rgb(244, 0, 0);
+      }
     </style>
   </head>
   <body>
-    <!--Score tracking, update DOM here-->
-    <p class="ttt-css">TESTING</p>
+
+    <div class="startup-container js-startup-container">
+      Project 3 <br>
+      Lorem ipsum
+      <div class="button-container">
+
+      <button class="button-player-one js-button-playerOne">START</button>
+      </div>
+    </div>
+
+    <div class="startup-container-two">
+      Choose X or O 
+      <button class="css-x-button">X</button>
+      <button class="css-o-button">O</button>
+      </div>
+
     <div class="container-score">
-      <p1 class="js-wins css-wins"
-        >Player 1 Wins = 0<br />
+      <p1 class="js-wins css-wins">
+        Player 1 Wins = 0 <br>
         Player 2 Wins = 0
       </p1>
       <br />
       <p1 class="js-tie">Tie = 0</p1>
     </div>
 
-    <section class="board">
+    <section class="board js-board">
       <div class="cell"></div>
       <div class="cell"></div>
       <div class="cell"></div>
@@ -120,11 +160,27 @@
       <div class="cell"></div>
       <div class="cell"></div>
     </section>
-    <button class="css-reset-game js-reset-game">Reset Game</button>
-    <button class="css-reset-score js-reset-score">Reset Score</button>
+    <button class="css-reset-game js-reset-game">Reset G</button>
+    <button class="css-reset-score js-reset-score">Reset SCR</button>
     <!--Issue with button here, should be under the grid DONE-->
 
     <script>
+
+      startUp = document.querySelector('.js-startup-container');
+      gridDisplay = document.querySelector('.js-board');
+
+      buttonOne = document.querySelector('.js-button-playerOne'); 
+
+      buttonOne.addEventListener("click", () => {
+        preGame();
+        console.log('player one click button')
+      });
+
+      function preGame() {
+        startUp.style.display = 'none';
+      }
+
+
       let boardData = [
         [0, 0, 0],
         [0, 0, 0],
