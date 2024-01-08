@@ -6,6 +6,20 @@
 
     <title>TicTacToe</title>
     <style>
+      /*
+      -issue Player 2 wins multiply after winning
+      -make a startup screen if you are X or O FUTURE
+      -after win, reset game DONE
+      -make a game with cpu FUTURE
+      -css will be the last FUTURE 
+
+      -Fixed player score positioning DONE
+      -tie game issue DONE
+      -create 2 buttons DONE
+      -reset game (remove cross and circle) DONE
+
+
+      */
       * {
         margin: 0;
         padding: 0;
@@ -53,7 +67,8 @@
         font-weight: bold;
       }
       /*Use inline-grid to create 3 sections for reset buttons*/
-      .css-reset-game, .css-reset-score {
+      .css-reset-game,
+      .css-reset-score {
         display: inline-block;
         margin-top: 20px;
         width: 250px;
@@ -63,20 +78,21 @@
         font-size: 30px;
         background-color: rgb(5, 200, 247);
       }
-      .css-reset-game:hover, .css-reset-score:hover {
+      .css-reset-game:hover,
+      .css-reset-score:hover {
         background-color: rgb(0, 156, 196);
       }
 
-      .css-reset-game:active, .css-reset-score:active {
+      .css-reset-game:active,
+      .css-reset-score:active {
         background-color: rgb(77, 219, 255);
         padding: 10px;
       }
 
-
       .container-score {
         color: rgb(255, 0, 0);
-        position: absolute;
-        bottom: 100px;
+        position: relative;
+        top: 600px;
         font-size: 30px;
       }
     </style>
@@ -85,13 +101,13 @@
     <!--Score tracking, update DOM here-->
     <p class="ttt-css">TESTING</p>
     <div class="container-score">
-
-     <p1 class="js-wins css-wins">Player 1 Wins =</p1>
-    <p1 class="js-loss">BBBB</p1>
-    <p1 class="js-tie">CCCC</p1>
-
+      <p1 class="js-wins css-wins"
+        >Player 1 Wins = 0<br />
+        Player 2 Wins = 0
+      </p1>
+      <br />
+      <p1 class="js-tie">Tie = 0</p1>
     </div>
-
 
     <section class="board">
       <div class="cell"></div>
@@ -109,14 +125,6 @@
     <!--Issue with button here, should be under the grid DONE-->
 
     <script>
-      //make a startup screen if you are X or O CURRENT 
-      //make a game with cpu FUTURE
-      //css will be the last FUTURE 
-
-      //tie game issue DONE
-      //create 2 buttons DONE
-      //reset game (remove cross and circle) DONE
-
       let boardData = [
         [0, 0, 0],
         [0, 0, 0],
@@ -160,9 +168,8 @@
             cell.classList.add("cross");
           } else if (boardData[row][col] === -1) {
             cell.classList.add("circle");
-          }
-          else if (boardData[row][col] === 0) {
-            cell.classList.remove("cross"); //RESET FEATURE 
+          } else if (boardData[row][col] === 0) {
+            cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
@@ -173,7 +180,8 @@
         resetGrid();
       });
 
-      function resetGrid() { //make two reset button, reset score and reset game
+      function resetGrid() {
+        //make two reset button, reset score and reset game
         for (let row = 0; row < 3; row++) {
           for (let col = 0; col < 3; col++) {
             boardData[row][col] = 0;
@@ -183,20 +191,39 @@
         console.log(boardData);
       }
 
-      resetScoreButton = document.querySelector('.js-reset-score');
-      resetScoreButton.addEventListener("click", () => {resetScore()});
+      resetScoreButton = document.querySelector(".js-reset-score");
+      resetScoreButton.addEventListener("click", () => {
+        resetScore();
+      });
 
       function resetScore() {
         playerWins = 0;
-        winScore.innerHTML = `Player 1 Wins = ${playerWins}`;
+        playerTwoWins = 0;
+        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
+        <br>Player 2 Wins = ${playerTwoWins}`;
         resetGrid();
       }
 
       let playerWins = 0;
-      let winScore = document.querySelector('.js-wins');
-      
-      function checkResult() {
+      let playerTwoWins = 0;
+      let playerTie = 0;
+      let winScore = document.querySelector(".js-wins");
 
+      function playerOneResult() {
+        setTimeout(function () {
+          resetGrid();
+          alert("Player 1 Wins");
+        }, 100);
+      }
+
+      function playerTwoResult() {
+        setTimeout(function () {
+          resetGrid();
+          alert("Player 2 Wins");
+        }, 100);
+      }
+
+      function checkResult() {
         for (let i = 0; i < 3; i++) {
           let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
           let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
@@ -207,18 +234,26 @@
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
           if (rowSum === 3 || colSum === 3) {
-            console.log("player 1 wins");
             playerWins++;
-          } else if (rowSum === -3 || colSum === -3) {
-            console.log("player 2 wins");
-          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             console.log("player 1 wins");
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+            playerOneResult();
+          } else if (rowSum === -3 || colSum === -3) {
+            playerTwoWins++;
             console.log("player 2 wins");
+            playerTwoResult();
+          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+            playerWins++;
+            console.log("player 1 wins");
+            playerOneResult();
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+            playerTwoWins++;
+            console.log("player 2 wins");
+            playerTwoResult();
           }
         }
-        
-        winScore.innerHTML = `Player 1 Wins = ${playerWins}`;
+
+        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
+        <br>Player 2 Wins = ${playerTwoWins}`;
 
         //issue how to tie if no player wins DONE
         let isTie = true;
@@ -233,8 +268,9 @@
           //isTie means if isTie is still true after the cell all filled
           alert("Tie");
           resetGrid();
+          playerTie++;
         }
-          //put function to reset if either player wins DONE
+        //put function to reset if either player wins DONE
       }
     </script>
   </body>
