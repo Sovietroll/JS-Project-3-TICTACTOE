@@ -7,12 +7,19 @@
     <title>TicTacToe</title>
     <style>
       /*
-      -issue Player 2 wins multiply after winning
+      -bug Player 2 wins multiply after winning TESTING MORE
       -make a startup screen if you are X or O FUTURE
-      -after win, reset game DONE
       -make a game with cpu FUTURE //Different file because it's complicated
       -css will be the last FUTURE 
 
+
+      -bug double click X turns into O FIXED
+        - score is still -1 after double click, only the icon changed
+        - issue (changing playerTwo = playerOne *= -1)
+        - if double click, the board will multiply  (1 * -1) becomes -1
+
+      -bug tie inner HTML FIXED
+      -after win, reset game DONE
       -startup screen HALFWAY DONE
       -Fixed player score positioning DONE
       -tie game issue DONE
@@ -126,7 +133,7 @@
   <body>
 
     <div class="startup-container js-startup-container">
-      Project 3 <br>
+      Project 3: TTTT <br>
       Lorem ipsum
       <div class="button-container">
 
@@ -136,17 +143,17 @@
 
     <div class="startup-container-two">
       Choose X or O 
-      <button class="css-x-button">X</button>
+      <button class="css-x-button js-x-button">X</button>
       <button class="css-o-button">O</button>
       </div>
 
     <div class="container-score">
       <p1 class="js-wins css-wins">
         Player 1 Wins = 0 <br>
-        Player 2 Wins = 0
+        Player 2 Wins = 0 <br>
+        Tie = 0
       </p1>
       <br />
-      <p1 class="js-tie">Tie = 0</p1>
     </div>
 
     <section class="board js-board">
@@ -160,11 +167,19 @@
       <div class="cell"></div>
       <div class="cell"></div>
     </section>
+
     <button class="css-reset-game js-reset-game">Reset G</button>
     <button class="css-reset-score js-reset-score">Reset SCR</button>
     <!--Issue with button here, should be under the grid DONE-->
 
     <script>
+      /*
+      let buttonX = document.querySelector('.js-x-button');
+
+      buttonX.addEventListener("click", c);
+
+    
+      */
 
       startUp = document.querySelector('.js-startup-container');
       gridDisplay = document.querySelector('.js-board');
@@ -178,8 +193,7 @@
 
       function preGame() {
         startUp.style.display = 'none';
-      }
-
+      }; 
 
       let boardData = [
         [0, 0, 0],
@@ -197,39 +211,71 @@
         });
       });
 
+
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
-        boardData[row][col] = playerOne;
-        playerTwo = playerOne *= -1;
 
-        if (boardData[row][col] === 0) {
-          playerTwo;
-        } else if (boardData[row][col] === 1) {
-          playerOne;
-        } else if (boardData[row][col] === -1) {
-          playerTwo;
+        if (boardData[row][col] === 0){
+          boardData[row][col] = playerOne;
+          playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
+          //Using unary negation operator (playerOne becomes negative)
+          //equivalent to multiplying 'playerOne' by -1
+
+          if (chooseX = true) {
+            drawMarkerPlayerChooseX();
+          }
+          else if(chooseX = false) {
+            drawMarkerPlayerChooseO();
+          }
+
+
+          drawMarker(); //remove this after, if it works**
+          checkResult();
+          console.log(boardData);
+
+        } else {
+          console.log('cell is full!')
         }
-        drawMarker();
-        checkResult();
-        console.log(boardData);
+        
       }
 
-      function drawMarker() {
+      function drawMarkerPlayerChooseX() { //REMOVE ALL ICON X's and O's
         cellElements.forEach((cell, index) => {
           let col = index % 3;
           let row = Math.floor(index / 3);
 
           if (boardData[row][col] === 1) {
             cell.classList.add("cross");
+            
           } else if (boardData[row][col] === -1) {
             cell.classList.add("circle");
+
           } else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
       }
+
+      function drawMarkerPlayerChooseO() { //REMOVE ALL ICON X's and O's
+        cellElements.forEach((cell, index) => {
+          let col = index % 3;
+          let row = Math.floor(index / 3);
+
+          if (boardData[row][col] === 1) {
+            cell.classList.add("circle");
+            
+          } else if (boardData[row][col] === -1) {
+            cell.classList.add("cross");
+
+          } else if (boardData[row][col] === 0) {
+            cell.classList.remove("cross"); //RESET FEATURE
+            cell.classList.remove("circle");
+          }
+        });
+      }
+
 
       resetButton = document.querySelector(".js-reset-game");
       resetButton.addEventListener("click", () => {
@@ -244,7 +290,6 @@
           }
         }
         drawMarker();
-        console.log(boardData);
       }
 
       resetScoreButton = document.querySelector(".js-reset-score");
@@ -252,11 +297,13 @@
         resetScore();
       });
 
-      function resetScore() {
+      function resetScore() { //RESET SCORE TO ZERO
         playerWins = 0;
         playerTwoWins = 0;
+        playerTie = 0;
         winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br>Player 2 Wins = ${playerTwoWins}`;
+        <br>Player 2 Wins = ${playerTwoWins}
+        <br> Tie = ${playerTie}`;
         resetGrid();
       }
 
@@ -286,33 +333,34 @@
 
           let diagonalSumOne =
             boardData[0][0] + boardData[1][1] + boardData[2][2];
+
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
           if (rowSum === 3 || colSum === 3) {
             playerWins++;
-            console.log("player 1 wins");
+            console.log("player 1 wins STRAIGHT");
             playerOneResult();
+            
           } else if (rowSum === -3 || colSum === -3) {
             playerTwoWins++;
-            console.log("player 2 wins");
+            console.log("player 2 wins STRAIGHT");
             playerTwoResult();
+
           } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             playerWins++;
-            console.log("player 1 wins");
+            console.log("player 1 wins DIAGONAL");
             playerOneResult();
+
           } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
             playerTwoWins++;
-            console.log("player 2 wins");
+            console.log("player 2 wins DIAGONAL");
             playerTwoResult();
           }
         }
 
-        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br>Player 2 Wins = ${playerTwoWins}`;
-
-        //issue how to tie if no player wins DONE
-        let isTie = true;
+                //TIE GAME HERE 
+                let isTie = true;
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++)
             if (boardData[i][j] !== 1 && boardData[i][j] !== -1) {
@@ -322,11 +370,18 @@
         }
         if (isTie) {
           //isTie means if isTie is still true after the cell all filled
-          alert("Tie");
-          resetGrid();
+          setTimeout(function (){
+            alert("Tie")
+          }, 100)
           playerTie++;
+          console.log('tie')
+          resetGrid();
         }
-        //put function to reset if either player wins DONE
+
+        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
+        <br> Player 2 Wins = ${playerTwoWins}
+        <br> Tie = ${playerTie}`;
+
       }
     </script>
   </body>
