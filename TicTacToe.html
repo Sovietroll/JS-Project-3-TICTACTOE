@@ -8,11 +8,11 @@
     <style>
       /*
       -bug Player 2 wins multiply after winning TESTING MORE
-      -make a startup screen if you are X or O FUTURE
       -make a game with cpu FUTURE //Different file because it's complicated
       -css will be the last FUTURE 
 
 
+      -make a startup screen if you are X or O JAVA DONEs
       -bug double click X turns into O FIXED
         - score is still -1 after double click, only the icon changed
         - issue (changing playerTwo = playerOne *= -1)
@@ -144,7 +144,7 @@
     <div class="startup-container-two">
       Choose X or O 
       <button class="css-x-button js-x-button">X</button>
-      <button class="css-o-button">O</button>
+      <button class="css-o-button js-o-button">O</button>
       </div>
 
     <div class="container-score">
@@ -173,13 +173,26 @@
     <!--Issue with button here, should be under the grid DONE-->
 
     <script>
-      /*
+      
+      let chooseX = true;
+      
       let buttonX = document.querySelector('.js-x-button');
 
-      buttonX.addEventListener("click", c);
+      buttonX.addEventListener("click", buttonEX); //function no bracket here
 
-    
-      */
+      let buttonO = document.querySelector('.js-o-button');
+
+      buttonO.addEventListener("click", buttonOW); //function no bracket here
+
+      function buttonEX() {
+        chooseX = true;
+        console.log('click X')
+      }
+
+      function buttonOW() {
+        chooseX = false;
+        console.log('click O')
+      }
 
       startUp = document.querySelector('.js-startup-container');
       gridDisplay = document.querySelector('.js-board');
@@ -222,14 +235,6 @@
           //Using unary negation operator (playerOne becomes negative)
           //equivalent to multiplying 'playerOne' by -1
 
-          if (chooseX = true) {
-            drawMarkerPlayerChooseX();
-          }
-          else if(chooseX = false) {
-            drawMarkerPlayerChooseO();
-          }
-
-
           drawMarker(); //remove this after, if it works**
           checkResult();
           console.log(boardData);
@@ -240,41 +245,32 @@
         
       }
 
-      function drawMarkerPlayerChooseX() { //REMOVE ALL ICON X's and O's
-        cellElements.forEach((cell, index) => {
+      function drawMarker() { //REMOVE ALL ICON X's and O's
+          cellElements.forEach((cell, index) => {
           let col = index % 3;
           let row = Math.floor(index / 3);
 
-          if (boardData[row][col] === 1) {
+          if (boardData[row][col] === 1 && chooseX === true) {
             cell.classList.add("cross");
-            
-          } else if (boardData[row][col] === -1) {
-            cell.classList.add("circle");
+          } 
+          else if (boardData[row][col] === 1 && chooseX === false) {
+            cell.classList.add("circle")
+            }
 
-          } else if (boardData[row][col] === 0) {
+          else if (boardData[row][col] === -1 && chooseX === true) {
+            cell.classList.add("circle");
+          } 
+          else if (boardData[row][col] === -1 && chooseX === false) {
+            cell.classList.add("cross")                                                                  
+          }
+
+          else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
       }
-
-      function drawMarkerPlayerChooseO() { //REMOVE ALL ICON X's and O's
-        cellElements.forEach((cell, index) => {
-          let col = index % 3;
-          let row = Math.floor(index / 3);
-
-          if (boardData[row][col] === 1) {
-            cell.classList.add("circle");
-            
-          } else if (boardData[row][col] === -1) {
-            cell.classList.add("cross");
-
-          } else if (boardData[row][col] === 0) {
-            cell.classList.remove("cross"); //RESET FEATURE
-            cell.classList.remove("circle");
-          }
-        });
-      }
+      
 
 
       resetButton = document.querySelector(".js-reset-game");
