@@ -8,7 +8,9 @@
     <style>
       /*
   -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
-      
+  **check double cross with vs CPU current Issue
+  
+  
       -css will be the last FUTURE 
 
       -make a startup screen if you are X or O JAVA DONEs
@@ -127,6 +129,15 @@
       .startup-container-two {
         color: rgb(244, 0, 0);
       }
+
+      .css-cpu-button {
+        width: 200px;
+        height: 100px
+      }
+
+      .css-cpu-button-after {
+        background-color: red;
+      }
     </style>
   </head>
   <body>
@@ -139,9 +150,10 @@
     </div>
 
     <div class="startup-container-two js-startup-container-two">
-      <div>Choose X or O</div>
+      <div>Choose X or O or CPU</div>
       <button class="css-x-button js-x-button">X</button>
       <button class="css-o-button js-o-button">O</button>
+      <button class="css-cpu-button js-computer-button">BATTLE WITH BOT</button>
       <div class="js-you-the-player"></div>
     </div>
 
@@ -172,13 +184,13 @@
 
     <script>
       let chooseX = true;
+      let cpuMove = false;
+      console.log(cpuMove);
 
       let buttonX = document.querySelector(".js-x-button");
-
       buttonX.addEventListener("click", buttonEX); //function no bracket here
 
       let buttonO = document.querySelector(".js-o-button");
-
       buttonO.addEventListener("click", buttonOW); //function no bracket here
 
       let youThePlayer = document.querySelector(".js-you-the-player"); //paragraph 'You the player'
@@ -187,7 +199,20 @@
         ".js-startup-container-two"
       );
 
+      let computerButton = document.querySelector(".js-computer-button");
+      computerButton.addEventListener("click", computerMove);
+
+
+
+
+      function computerMove () {
+      cpuMove = true;
+      startUpContainerTwo.style.display = "none";
+      console.log('Vs CPU');
+    }
+
       function buttonEX() {
+        cpuMove = false;
         chooseX = true;
         youThePlayer.innerHTML = "You are X";
         startUpContainerTwo.style.display = "none";
@@ -195,6 +220,7 @@
       }
 
       function buttonOW() {
+        cpuMove = false;
         chooseX = false;
         youThePlayer.innerHTML = "You are O";
         startUpContainerTwo.style.display = "none";
@@ -208,7 +234,7 @@
 
       buttonOne.addEventListener("click", () => {
         preGame();
-        console.log("player one click button");
+        console.log("player click Start button");
       });
 
       function preGame() {
@@ -234,19 +260,50 @@
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
+        let cpuBot;
 
-        if (boardData[row][col] === 0) {
+        if (boardData[row][col] === 0 && cpuMove === false) {
           boardData[row][col] = playerOne;
           playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
           //Using unary negation operator (playerOne becomes negative)
           //equivalent to multiplying 'playerOne' by -1
 
-          drawMarker(); //remove this after, if it works**
+          drawMarker();
           checkResult();
           console.log(boardData);
-        } else {
+        } 
+ /*CPU*/else if (boardData[row][col] === 0 && cpuMove === true) {
+          boardData[row][col] = playerOne;
+          cpuBot = -playerOne;
+
+          drawMarkerCPU();
+          checkResult();
+          console.log('RUNS DRAW MARKER CPU 2')
+        }
+        
+        
+        else {
           console.log("cell is full!");
         }
+      }
+
+      function drawMarkerCPU() {
+        //REMOVE ALL ICON X's and O's
+        cellElements.forEach((cell, index) => {
+          let col = index % 3;
+          let row = Math.floor(index / 3);
+
+          if (boardData[row][col] === 1) {
+            cell.classList.add("cross");
+          } 
+          else if (boardData[row][col] === -1) {
+            cell.classList.add("circle");
+          } 
+          else if (boardData[row][col] === 0) {
+            cell.classList.remove("cross"); //RESET FEATURE
+            cell.classList.remove("circle");
+          }
+        });
       }
 
       function drawMarker() {
@@ -339,7 +396,12 @@
             playerTwoWins++;
             console.log("player 2 wins STRAIGHT");
             playerTwoResult();
-          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+          } 
+
+          else if (rowSum === -3 || colSum === -3 && cpuMove === true) {
+            console.log('cpu wins')
+          }
+          else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             playerWins++;
             console.log("player 1 wins DIAGONAL");
             playerOneResult();
@@ -347,6 +409,9 @@
             playerTwoWins++;
             console.log("player 2 wins DIAGONAL");
             playerTwoResult();
+          }
+          else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === true) {
+            console.log('cpu wins')
           }
         }
 
