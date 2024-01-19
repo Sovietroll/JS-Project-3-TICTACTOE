@@ -7,12 +7,12 @@
     <title>TicTacToe</title>
     <style>
       /*
-  -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
-  **check double cross with vs CPU current Issue
-  
-  
-      -css will be the last FUTURE 
 
+      
+     -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
+  
+     **check double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
+      -css will be the last FUTURE 
       -make a startup screen if you are X or O JAVA DONEs
       -bug double click X turns into O FIXED
         - score is still -1 after double click, only the icon changed
@@ -206,9 +206,10 @@
 
 
       function computerMove () {
-      cpuMove = true;
+      cpuMove = true; //turn true
       startUpContainerTwo.style.display = "none";
       console.log('Vs CPU');
+      console.log(cpuMove)
     }
 
       function buttonEX() {
@@ -271,17 +272,18 @@
           drawMarker();
           checkResult();
           console.log(boardData);
+          console.log('RUNS DRAW MARKER PLAYER')
         } 
  /*CPU*/else if (boardData[row][col] === 0 && cpuMove === true) {
           boardData[row][col] = playerOne;
-          cpuBot = -playerOne;
+          playerOne = -playerOne;
 
           drawMarkerCPU();
           checkResult();
-          console.log('RUNS DRAW MARKER CPU 2')
+          console.log(boardData);
+          console.log('RUNS DRAW MARKER CPU 2');
         }
-        
-        
+            
         else {
           console.log("cell is full!");
         }
@@ -388,30 +390,33 @@
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
-          if (rowSum === 3 || colSum === 3) {
+          if (rowSum === 3 || colSum === 3 && cpuMove === false) {
             playerWins++;
             console.log("player 1 wins STRAIGHT");
             playerOneResult();
-          } else if (rowSum === -3 || colSum === -3) {
+          } else if (rowSum === -3 || colSum === -3 && cpuMove === false) {
             playerTwoWins++;
             console.log("player 2 wins STRAIGHT");
             playerTwoResult();
-          } 
-
+          }  
+          
           else if (rowSum === -3 || colSum === -3 && cpuMove === true) {
-            console.log('cpu wins')
+            alert('cpu wins');
+            console.log('cpu wins');
           }
-          else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+
+          else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && cpuMove === false) {
             playerWins++;
             console.log("player 1 wins DIAGONAL");
             playerOneResult();
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === false) {
             playerTwoWins++;
             console.log("player 2 wins DIAGONAL");
             playerTwoResult();
           }
           else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === true) {
-            console.log('cpu wins')
+            alert('cpu wins')
+            console.log('cpu wins');
           }
         }
 
