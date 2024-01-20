@@ -2,7 +2,7 @@
 0 --> 1/9
 */
 
-function computerMove () {
+function pcMove () {
     const randomMove = Math.random(randomMove * 3); //3x3 board
 
     if(randomMove >= 0 && randomMove <= 1/9) {
