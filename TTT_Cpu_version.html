@@ -141,25 +141,9 @@
     </style>
   </head>
   <body>
-    <div class="startup-container js-startup-container">
-      Project 3: TTTT <br />
-      Lorem ipsum
-      <div class="button-container">
-        <button class="button-player-one js-button-playerOne">START</button>
-      </div>
-    </div>
-
-    <div class="startup-container-two js-startup-container-two">
-      <div>Choose X or O or CPU</div>
-      <button class="css-x-button js-x-button">X</button>
-      <button class="css-o-button js-o-button">O</button>
-      <div class="js-you-the-player"></div>
-    </div>
-
     <div class="container-score">
       <p1 class="js-wins css-wins">
-        Player 1 Wins = 0 <br />
-        Player 2 Wins = 0 <br />
+        Player Wins = 0 <br />
         Tie = 0
       </p1>
       <br />
@@ -182,57 +166,14 @@
     <!--Issue with button here, should be under the grid DONE-->
 
     <script>
-      let chooseX = true;
-
-      let buttonX = document.querySelector(".js-x-button");
-      buttonX.addEventListener("click", buttonEX); //function no bracket here
-
-      let buttonO = document.querySelector(".js-o-button");
-      buttonO.addEventListener("click", buttonOW); //function no bracket here
-
-      let youThePlayer = document.querySelector(".js-you-the-player"); //paragraph 'You the player'
-
-      let startUpContainerTwo = document.querySelector(
-        ".js-startup-container-two"
-      );
-
-      function buttonEX() {
-        cpuMove = false;
-        chooseX = true;
-        youThePlayer.innerHTML = "You are X";
-        startUpContainerTwo.style.display = "none";
-        console.log("Player choose X");
-      }
-
-      function buttonOW() {
-        cpuMove = false;
-        chooseX = false;
-        youThePlayer.innerHTML = "You are O";
-        startUpContainerTwo.style.display = "none";
-        console.log("Player choose O");
-      }
-
-      startUp = document.querySelector(".js-startup-container");
-      gridDisplay = document.querySelector(".js-board");
-
-      buttonOne = document.querySelector(".js-button-playerOne");
-
-      buttonOne.addEventListener("click", () => {
-        preGame();
-        console.log("player click Start button");
-      });
-
-      function preGame() {
-        startUp.style.display = "none";
-      }
+      let playerOne = 1;
+      let cpuBot = -1;
 
       let boardData = [
         [0, 0, 0],
         [0, 0, 0],
         [0, 0, 0],
       ];
-
-      let playerOne = 1;
 
       cellElements = document.querySelectorAll(".cell");
 
@@ -245,21 +186,15 @@
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
-        let cpuBot;
 
         if (boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
-          playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
-          //Using unary negation operator (playerOne becomes negative)
-          //equivalent to multiplying 'playerOne' by -1
+          boardData[row][col] = cpuBot;
 
           drawMarker();
           checkResult();
           console.log(boardData);
-          console.log('runs drawMarker player')
-        } 
-            
-        else {
+        } else {
           console.log("cell is full!");
         }
       }
@@ -270,20 +205,19 @@
           let col = index % 3;
           let row = Math.floor(index / 3);
 
-         if (boardData[row][col] === 1 && chooseX === true) {
+          if (boardData[row][col] === 1) {
             cell.classList.add("cross");
-          } else if (boardData[row][col] === 1 && chooseX === false) {
+          } 
+          else if (boardData[row][col] === -1) {
             cell.classList.add("circle");
-          } else if (boardData[row][col] === -1 && chooseX === true) {
-            cell.classList.add("circle");
-          } else if (boardData[row][col] === -1 && chooseX === false) {
-            cell.classList.add("cross");
-          } else if (boardData[row][col] === 0) {
+          } 
+          else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
       }
+
 
       resetButton = document.querySelector(".js-reset-game");
       resetButton.addEventListener("click", () => {
@@ -305,19 +239,15 @@
         resetScore();
       });
 
-      function resetScore() {
-        //RESET SCORE TO ZERO
+ /*RESET BOARDDATA TO ZERO*/function resetScore() {
         playerWins = 0;
-        playerTwoWins = 0;
         playerTie = 0;
         winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br>Player 2 Wins = ${playerTwoWins}
         <br> Tie = ${playerTie}`;
         resetGrid();
       }
 
       let playerWins = 0;
-      let playerTwoWins = 0;
       let playerTie = 0;
       let winScore = document.querySelector(".js-wins");
 
@@ -328,12 +258,6 @@
         }, 100);
       }
 
-      function playerTwoResult() {
-        setTimeout(function () {
-          resetGrid();
-          alert("Player 2 Wins");
-        }, 100);
-      }
 
       function checkResult() {
         for (let i = 0; i < 3; i++) {
@@ -351,18 +275,18 @@
             console.log("player 1 wins STRAIGHT");
             playerOneResult();
           } else if (rowSum === -3 || colSum === -3 && cpuMove === false) {
-            playerTwoWins++;
-            console.log("player 2 wins STRAIGHT");
-            playerTwoResult();
+            cpuWins++
+            console.log('cpu wins')
           }  
+
+
           else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && cpuMove === false) {
             playerWins++;
             console.log("player 1 wins DIAGONAL");
             playerOneResult();
           } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === false) {
-            playerTwoWins++;
-            console.log("player 2 wins DIAGONAL");
-            playerTwoResult();
+            cpuWins++
+            console.log('cpu wins')
           }
         }
 
@@ -386,7 +310,6 @@
         }
 
         winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br> Player 2 Wins = ${playerTwoWins}
         <br> Tie = ${playerTie}`;
       }
     </script>
