@@ -272,22 +272,42 @@
           drawMarker();
           checkResult();
           console.log(boardData);
-          console.log('RUNS DRAW MARKER PLAYER')
+          console.log('Runs draw marker player')
         } 
  /*CPU*/else if (boardData[row][col] === 0 && cpuMove === true) {
-          boardData[row][col] = playerOne;
-          playerOne = -playerOne;
+          boardData[row][col] = -1
+          cpuMove = false;
 
-          drawMarkerCPU();
+          pcMove();
           checkResult();
           console.log(boardData);
-          console.log('RUNS DRAW MARKER CPU 2');
+          console.log('cpu moves');
         }
             
         else {
           console.log("cell is full!");
         }
       }
+
+    function pcMove () {
+    const randomMove = Math.random()*3; //3x3 board
+
+    if(randomMove >= 0 && randomMove <= 1/2 && boardData[i][j] === 1) {
+        for(let j=0; j<3; j++){
+            boardData[i][j] = -1;
+            cell.classList.add("circle");
+            drawMarkerCPU();
+        }
+      }
+
+      else if (randomMove >= 1/2 && randomMove <= 1/3 && boardData[i][j] === 1) {
+        for(let j=0; j<3; j++){
+          boardData[i][j] = -1;
+          cell.classList.add("circle");
+          drawMarkerCPU();
+        }
+      }
+    }
 
       function drawMarkerCPU() {
         //REMOVE ALL ICON X's and O's
