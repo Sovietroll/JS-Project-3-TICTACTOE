@@ -116,8 +116,6 @@
         position: fixed;
         top: 100px;
       }
-      .button-container {
-      }
       .button-player-one,
       .button-player-two {
         width: 100px;
@@ -141,13 +139,7 @@
     </style>
   </head>
   <body>
-    <div class="container-score">
-      <p1 class="js-wins css-wins">
-        Player Wins = 0 <br />
-        Tie = 0
-      </p1>
-      <br />
-    </div>
+
 
     <section class="board js-board">
       <div class="cell"></div>
@@ -175,6 +167,28 @@
         [0, 0, 0],
       ];
 
+      function cpuMove () {
+  const randomMove = Math.random();
+
+  for (let i = 0; i < 3; i++) {
+    for (let j =0; j < 3; j++) {
+      if (randomMove >= 0 && randomMove <= 1/9 && playerPlaced) {
+          boardData[i][j] = -1;
+          
+      } else if (randomMove >= 1/9 && randomMove <= 2/9 && playerPlaced) {
+        boardData = [
+          [0, -1, 0],
+          [0, 0, 0],
+          [0, 0, 0],
+        ];
+      } else {
+        ;
+        
+      }
+    }
+  }
+}
+
       cellElements = document.querySelectorAll(".cell");
 
       cellElements.forEach((cell, index) => {
@@ -183,15 +197,18 @@
         });
       });
 
+      let playerPlaced = false;
+
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
 
         if (boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
-          boardData[row][col] = cpuBot;
+          /*playerOne = -playerOne; */
 
           drawMarker();
+          cpuMove();
           checkResult();
           console.log(boardData);
         } else {
@@ -206,6 +223,7 @@
           let row = Math.floor(index / 3);
 
           if (boardData[row][col] === 1) {
+            playerPlaced = true;
             cell.classList.add("cross");
           } 
           else if (boardData[row][col] === -1) {
@@ -249,7 +267,6 @@
 
       let playerWins = 0;
       let playerTie = 0;
-      let winScore = document.querySelector(".js-wins");
 
       function playerOneResult() {
         setTimeout(function () {
@@ -270,23 +287,29 @@
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
-          if (rowSum === 3 || colSum === 3 && cpuMove === false) {
+          if (rowSum === 3 || colSum === 3) {
             playerWins++;
             console.log("player 1 wins STRAIGHT");
             playerOneResult();
-          } else if (rowSum === -3 || colSum === -3 && cpuMove === false) {
+            break;
+          } else if (rowSum === -3 || colSum === -3) {
             cpuWins++
-            console.log('cpu wins')
+            console.log('cpu wins');
+            break;
           }  
 
 
-          else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && cpuMove === false) {
+          else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             playerWins++;
             console.log("player 1 wins DIAGONAL");
             playerOneResult();
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === false) {
-            cpuWins++
-            console.log('cpu wins')
+            break;
+          } 
+          
+          else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+            cpuWins++;
+            console.log('cpu wins');
+            break;
           }
         }
 
@@ -309,8 +332,6 @@
           resetGrid();
         }
 
-        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br> Tie = ${playerTie}`;
       }
     </script>
   </body>

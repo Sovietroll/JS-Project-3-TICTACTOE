@@ -9,16 +9,19 @@
       /*
 
       
-     -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
   
-     **check double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
-      -css will be the last FUTURE 
+    Next -Make CSS of the game
+     
+     FINISHED
+     -BUG FIXED: turn statement doesnt appear correctly
+     -BUG FIXED: diagonal wins repeat 3 times (Use 'break' because the win looping 'checkResult' 3 times)
+     -BUG FIXED: double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
       -make a startup screen if you are X or O JAVA DONEs
       -bug double click X turns into O FIXED
         - score is still -1 after double click, only the icon changed
         - issue (changing playerTwo = playerOne *= -1)
         - if double click, the board will multiply  (1 * -1) becomes -1
-      -bug tie inner HTML FIXED
+      -BUG FIXED tie inner HTML
       -after win, reset game DONE
       -startup screen HALFWAY DONE
       -Fixed player score positioning DONE
@@ -116,11 +119,15 @@
         position: fixed;
         top: 100px;
       }
-      .button-container {
-      }
+
       .button-player-one,
       .button-player-two {
         width: 100px;
+      }
+      .css-x-button,
+      .css-o-button {
+        width: 200px;
+        height: 100px;
       }
       .button-player-one:hover .buton-player-two:hover {
         background-color: rgb(255, 93, 93);
@@ -137,6 +144,10 @@
 
       .css-cpu-button-after {
         background-color: red;
+      }
+
+      .css-turns {
+        color: white;
       }
     </style>
   </head>
@@ -163,6 +174,10 @@
         Tie = 0
       </p1>
       <br />
+    </div>
+
+    <div class="css-turns js-turns">
+      TURNS
     </div>
 
     <section class="board js-board">
@@ -196,19 +211,21 @@
         ".js-startup-container-two"
       );
 
+      let turnsText = document.querySelector(".js-turns");
+
       function buttonEX() {
-        cpuMove = false;
         chooseX = true;
         youThePlayer.innerHTML = "You are X";
         startUpContainerTwo.style.display = "none";
+        playerChooseOX();
         console.log("Player choose X");
       }
 
       function buttonOW() {
-        cpuMove = false;
         chooseX = false;
         youThePlayer.innerHTML = "You are O";
         startUpContainerTwo.style.display = "none";
+        playerChooseOX();
         console.log("Player choose O");
       }
 
@@ -242,27 +259,51 @@
         });
       });
 
+
+
+      let turns; //this outside function, it keeps looping to true
+      
+      function playerChooseOX(){
+        if (chooseX) {
+          turns = true;
+        } else{
+          turns = false;
+        }
+      }
+
+      
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
-        let cpuBot;
+
 
         if (boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
           playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
           //Using unary negation operator (playerOne becomes negative)
           //equivalent to multiplying 'playerOne' by -1
-
+          
           drawMarker();
           checkResult();
-          console.log(boardData);
-          console.log('runs drawMarker player')
-        } 
+          console.log(turns);
+
+          if (turns === true){
+            turnsText.innerHTML = (`Next turn O`);
+            turns = false;
+
             
-        else {
-          console.log("cell is full!");
-        }
+          } else if (turns === false) {
+            turnsText.innerHTML = (`Next turn X`);
+            turns = true;
+          }} 
+
+
+          else {
+           console.log("cell is full!");
+          }
+
       }
+      
 
       function drawMarker() {
         //REMOVE ALL ICON X's and O's
@@ -270,19 +311,29 @@
           let col = index % 3;
           let row = Math.floor(index / 3);
 
-         if (boardData[row][col] === 1 && chooseX === true) {
+         if (boardData[row][col] === 1 && chooseX) {
             cell.classList.add("cross");
-          } else if (boardData[row][col] === 1 && chooseX === false) {
+
+          } 
+          
+          else if (boardData[row][col] === -1 && chooseX) {
             cell.classList.add("circle");
-          } else if (boardData[row][col] === -1 && chooseX === true) {
+
+          }  
+            else if (boardData[row][col] === 1 && !chooseX) {
             cell.classList.add("circle");
-          } else if (boardData[row][col] === -1 && chooseX === false) {
+            
+
+          } else if (boardData[row][col] === -1 && !chooseX) {
             cell.classList.add("cross");
+            
+            
           } else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
+
       }
 
       resetButton = document.querySelector(".js-reset-game");
@@ -346,23 +397,28 @@
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
-          if (rowSum === 3 || colSum === 3 && cpuMove === false) {
-            playerWins++;
-            console.log("player 1 wins STRAIGHT");
-            playerOneResult();
-          } else if (rowSum === -3 || colSum === -3 && cpuMove === false) {
-            playerTwoWins++;
-            console.log("player 2 wins STRAIGHT");
-            playerTwoResult();
+          if (rowSum === 3 || colSum === 3) {
+              playerWins++;
+              playerOneResult()
+              break;
+       
+          } else if (rowSum === -3 || colSum === -3) {
+              playerTwoWins++;
+              playerTwoResult();
+              break;
           }  
-          else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && cpuMove === false) {
-            playerWins++;
-            console.log("player 1 wins DIAGONAL");
-            playerOneResult();
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && cpuMove === false) {
-            playerTwoWins++;
-            console.log("player 2 wins DIAGONAL");
-            playerTwoResult();
+
+
+            else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+              playerWins++;
+              playerOneResult();
+              break;
+          } 
+          
+            else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+              playerTwoWins++;
+              playerTwoResult();
+              break;
           }
         }
 
@@ -381,7 +437,6 @@
             alert("Tie");
           }, 100);
           playerTie++;
-          console.log("tie");
           resetGrid();
         }
 
