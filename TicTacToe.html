@@ -13,6 +13,7 @@
     Next -Make CSS of the game
      
      FINISHED
+     -BUG FIXED: grid non-interactive after place 'style.display' (fixed with using style.visibility)
      -BUG FIXED: turn statement doesnt appear correctly
      -BUG FIXED: diagonal wins repeat 3 times (Use 'break' because the win looping 'checkResult' 3 times)
      -BUG FIXED: double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
@@ -174,7 +175,7 @@
     </div>
 
     <div class="startup-container-two js-startup-container-two">
-      <div>Choose X or O or CPU</div>
+      <div>Choose X or O</div>
       <button class="css-x-button js-x-button">X</button>
       <button class="css-o-button js-o-button">O</button>
       <div class="js-you-the-player"></div>
@@ -207,6 +208,7 @@
 
     <div class="buttonScore">
       <button class="css-reset-game js-reset-game">Reset G</button>
+      </br>
       <button class="css-reset-score js-reset-score">Reset SCR</button>
     </div>
 
@@ -214,18 +216,21 @@
       let chooseX = true;
 
       let buttonX = document.querySelector(".js-x-button");
-      buttonX.addEventListener("click", buttonEX); //function no bracket here
+      buttonX.addEventListener("click", buttonEX);
 
       let buttonO = document.querySelector(".js-o-button");
-      buttonO.addEventListener("click", buttonOW); //function no bracket here
+      buttonO.addEventListener("click", buttonOW);
 
-      let youThePlayer = document.querySelector(".js-you-the-player"); //paragraph 'You the player'
-
+      let youThePlayer = document.querySelector(".js-you-the-player");
       let startUpContainerTwo = document.querySelector(
         ".js-startup-container-two"
       );
-
       let turnsText = document.querySelector(".js-turns"); //TURNS
+      const startUp = document.querySelector(".js-startup-container");
+      const gridDisplay = document.querySelector(".js-board");
+      const buttonOne = document.querySelector(".js-button-playerOne");
+      const containerScore = document.querySelector(".container-score");
+      const buttonBottom = document.querySelector(".buttonScore");
 
       function buttonEX() {
         chooseX = true;
@@ -233,6 +238,7 @@
         startUpContainerTwo.style.display = "none";
         playerChooseOX();
         console.log("Player choose X");
+        preGameAfterClick ();
       }
 
       function buttonOW() {
@@ -241,35 +247,35 @@
         startUpContainerTwo.style.display = "none";
         playerChooseOX();
         console.log("Player choose O");
+        preGameAfterClick ();
       }
 
-      startUp = document.querySelector(".js-startup-container");
-      gridDisplay = document.querySelector(".js-board");
-
-      buttonOne = document.querySelector(".js-button-playerOne");
 
       buttonOne.addEventListener("click", () => {
         preGame();
         console.log("player click Start button");
       });
 
-      const containerScore = document.querySelector(".container-score");
-      const buttonBottom = document.querySelector(".buttonScore");
-
-
-      gridDisplay.style.display = "none";
       startUpContainerTwo.style.display = "none";
       containerScore.style.display = "none";
       buttonBottom.style.display = "none";
       turnsText.style.display = "none";
-
+ 
       function preGame() {
         startUp.style.display = "none";
-        gridDisplay.style.display = "block";
         startUpContainerTwo.style.display = "block";
+        containerScore.style.display = "none";
+        buttonBottom.style.display = "none";
+        turnsText.style.display = "none";
+        gridDisplay.style.visibility = "hidden";
+      }
+      function preGameAfterClick (){
+        startUp.style.display = "none";
+        startUpContainerTwo.style.display = "none";
         containerScore.style.display = "block";
         buttonBottom.style.display = "block";
         turnsText.style.display = "block";
+        gridDisplay.style.visibility = "visible"; //style.visibility can make it interactive 
       }
 
       let boardData = [
