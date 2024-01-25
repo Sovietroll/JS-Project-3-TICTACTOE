@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>TicTacToe</title>
+    <title>TicTacToe CPU version</title>
     <style>
       /*
 
@@ -140,7 +140,6 @@
   </head>
   <body>
 
-
     <section class="board js-board">
       <div class="cell"></div>
       <div class="cell"></div>
@@ -153,9 +152,6 @@
       <div class="cell"></div>
     </section>
 
-    <button class="css-reset-game js-reset-game">Reset G</button>
-    <button class="css-reset-score js-reset-score">Reset SCR</button>
-    <!--Issue with button here, should be under the grid DONE-->
 
     <script>
       let playerOne = 1;
@@ -167,23 +163,23 @@
         [0, 0, 0],
       ];
 
-      function cpuMove () {
+  function cpuMove () {
   const randomMove = Math.random();
 
-  for (let i = 0; i < 3; i++) {
-    for (let j =0; j < 3; j++) {
-      if (randomMove >= 0 && randomMove <= 1/9 && playerPlaced) {
-          boardData[i][j] = -1;
-          
-      } else if (randomMove >= 1/9 && randomMove <= 2/9 && playerPlaced) {
-        boardData = [
-          [0, -1, 0],
-          [0, 0, 0],
-          [0, 0, 0],
-        ];
-      } else {
-        ;
-        
+  for (let row = 0; row < 3; row++) {
+    for (let col =0; col < 3; col++) {
+      if (randomMove >= 0 && randomMove <= 1/9) {
+          boardData[row][col] = -1;
+          console.log('runs cpuMove 1');
+
+      } else if (randomMove >= 1/9 && randomMove <= 2/9) {
+        boardData[row][col] = -1;
+        console.log('runs cpuMove 2');
+
+
+      } else if (randomMove >= 2/9 && randomMove <= 3/9) {
+        boardData[row][col] = -1;
+          console.log('runs cpuMove 3');
       }
     }
   }
@@ -204,11 +200,11 @@
         let row = (index - col) / 3;
 
         if (boardData[row][col] === 0) {
-          boardData[row][col] = playerOne;
-          /*playerOne = -playerOne; */
-
-          drawMarker();
+        boardData[row][col] = playerOne;
+        if (boardData[row][col] = playerOne) {
           cpuMove();
+        }
+          drawMarker();
           checkResult();
           console.log(boardData);
         } else {
@@ -223,7 +219,6 @@
           let row = Math.floor(index / 3);
 
           if (boardData[row][col] === 1) {
-            playerPlaced = true;
             cell.classList.add("cross");
           } 
           else if (boardData[row][col] === -1) {
@@ -237,6 +232,7 @@
       }
 
 
+     /*
       resetButton = document.querySelector(".js-reset-game");
       resetButton.addEventListener("click", () => {
         resetGrid();
@@ -257,24 +253,7 @@
         resetScore();
       });
 
- /*RESET BOARDDATA TO ZERO*/function resetScore() {
-        playerWins = 0;
-        playerTie = 0;
-        winScore.innerHTML = `Player 1 Wins = ${playerWins} 
-        <br> Tie = ${playerTie}`;
-        resetGrid();
-      }
-
-      let playerWins = 0;
-      let playerTie = 0;
-
-      function playerOneResult() {
-        setTimeout(function () {
-          resetGrid();
-          alert("Player 1 Wins");
-        }, 100);
-      }
-
+      */
 
       function checkResult() {
         for (let i = 0; i < 3; i++) {
@@ -288,26 +267,21 @@
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
           if (rowSum === 3 || colSum === 3) {
-            playerWins++;
             console.log("player 1 wins STRAIGHT");
-            playerOneResult();
             break;
+
           } else if (rowSum === -3 || colSum === -3) {
-            cpuWins++
             console.log('cpu wins');
             break;
           }  
 
 
           else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
-            playerWins++;
             console.log("player 1 wins DIAGONAL");
-            playerOneResult();
             break;
           } 
           
           else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
-            cpuWins++;
             console.log('cpu wins');
             break;
           }
@@ -324,11 +298,8 @@
         }
         if (isTie) {
           //isTie means if isTie is still true after the cell all filled
-          setTimeout(function () {
-            alert("Tie");
-          }, 100);
-          playerTie++;
           console.log("tie");
+          console.log("Resetting grid");
           resetGrid();
         }
 

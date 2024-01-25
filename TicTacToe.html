@@ -141,8 +141,30 @@
       }
       .css-x-button,
       .css-o-button {
-        width: 200px;
-        height: 100px;
+        width: 150px;
+        height: 30px;
+        border-radius: 80px;
+        border-style: none;
+        cursor: pointer;
+        font-size: 25px;
+        transition: .5s ease;
+      }
+      .css-x-button:hover {
+        background-color: rgb(106, 106, 251);
+        transition: .5s;
+        color: white;
+      }
+      .css-o-button:hover {
+        background-color: rgb(250, 84, 84);
+        transition: .5s;
+        color: white;
+      }
+      .css-chooseXOrO {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        color: white;
+        font-size: 30px;
       }
 
       .startup-container-two {
@@ -163,7 +185,7 @@
       }
     </style>
   </head>
-  <body>
+  <body> 
     <div class="startup-container js-startup-container">
       <div class="startup-container-text-inside">
         Project 3: TTTT <br/>
@@ -175,7 +197,7 @@
     </div>
 
     <div class="startup-container-two js-startup-container-two">
-      <div>Choose X or O</div>
+      <div class="css-chooseXOrO">CHOOSE X OR O</div>
       <button class="css-x-button js-x-button">X</button>
       <button class="css-o-button js-o-button">O</button>
       <div class="js-you-the-player"></div>
