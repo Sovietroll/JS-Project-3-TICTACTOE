@@ -11,20 +11,8 @@
       
      -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
   
-     **check double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
-      -css will be the last FUTURE 
-      -make a startup screen if you are X or O JAVA DONEs
-      -bug double click X turns into O FIXED
-        - score is still -1 after double click, only the icon changed
-        - issue (changing playerTwo = playerOne *= -1)
-        - if double click, the board will multiply  (1 * -1) becomes -1
-      -bug tie inner HTML FIXED
-      -after win, reset game DONE
-      -startup screen HALFWAY DONE
-      -Fixed player score positioning DONE
-      -tie game issue DONE
-      -create 2 buttons DONE
-      -reset game (remove cross and circle) DONE
+     -cpu move still ongoing
+     -BUG - some cpu move doesnt appear
 
 
       */
@@ -130,7 +118,7 @@
 
       .css-cpu-button {
         width: 200px;
-        height: 100px
+        height: 100px;
       }
 
       .css-cpu-button-after {
@@ -139,19 +127,17 @@
     </style>
   </head>
   <body>
-
     <section class="board js-board">
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
-      <div class="cell"></div>
+      <div class="cell">0</div>
+      <div class="cell">0</div>
+      <div class="cell">0</div>
+      <div class="cell">1</div>
+      <div class="cell">1</div>
+      <div class="cell">1</div>
+      <div class="cell">2</div>
+      <div class="cell">2</div>
+      <div class="cell">2</div>
     </section>
-
 
     <script>
       let playerOne = 1;
@@ -163,28 +149,20 @@
         [0, 0, 0],
       ];
 
-  function cpuMove () {
-  const randomMove = Math.random();
-
-  for (let row = 0; row < 3; row++) {
-    for (let col =0; col < 3; col++) {
-      if (randomMove >= 0 && randomMove <= 1/9) {
-          boardData[row][col] = -1;
-          console.log('runs cpuMove 1');
-
-      } else if (randomMove >= 1/9 && randomMove <= 2/9) {
-        boardData[row][col] = -1;
-        console.log('runs cpuMove 2');
-
-
-      } else if (randomMove >= 2/9 && randomMove <= 3/9) {
-        boardData[row][col] = -1;
-          console.log('runs cpuMove 3');
+      function cpuMove() {
+        const randomRow = Math.floor(Math.random() * 3); //round up to 0,1,2 NOTED THIS new info
+        const randomCol = Math.floor(Math.random() * 3); //round up to 0,1,2
+        if (boardData[randomRow][randomCol] === 0) {
+          boardData[randomRow][randomCol] = -1;
+        } else if (
+          boardData[randomRow][randomCol] === 1 &&
+          boardData[randomRow][randomCol] === -1
+        ) {
+          cpuMove();
+        }
+        console.log(`row ${randomRow}`);
+      console.log(`col ${randomCol}`);
       }
-    }
-  }
-}
-
       cellElements = document.querySelectorAll(".cell");
 
       cellElements.forEach((cell, index) => {
@@ -200,10 +178,8 @@
         let row = (index - col) / 3;
 
         if (boardData[row][col] === 0) {
-        boardData[row][col] = playerOne;
-        if (boardData[row][col] = playerOne) {
+          boardData[row][col] = playerOne;
           cpuMove();
-        }
           drawMarker();
           checkResult();
           console.log(boardData);
@@ -220,23 +196,15 @@
 
           if (boardData[row][col] === 1) {
             cell.classList.add("cross");
-          } 
-          else if (boardData[row][col] === -1) {
+          } else if (boardData[row][col] === -1) {
             cell.classList.add("circle");
-          } 
-          else if (boardData[row][col] === 0) {
+          } else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
         });
       }
 
-
-     /*
-      resetButton = document.querySelector(".js-reset-game");
-      resetButton.addEventListener("click", () => {
-        resetGrid();
-      });
 
       function resetGrid() {
         //make two reset button, reset score and reset game
@@ -248,12 +216,8 @@
         drawMarker();
       }
 
-      resetScoreButton = document.querySelector(".js-reset-score");
-      resetScoreButton.addEventListener("click", () => {
-        resetScore();
-      });
 
-      */
+      
 
       function checkResult() {
         for (let i = 0; i < 3; i++) {
@@ -268,21 +232,19 @@
 
           if (rowSum === 3 || colSum === 3) {
             console.log("player 1 wins STRAIGHT");
+            resetGrid();
             break;
-
           } else if (rowSum === -3 || colSum === -3) {
-            console.log('cpu wins');
+            console.log("cpu wins");
+            resetGrid();
             break;
-          }  
-
-
-          else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             console.log("player 1 wins DIAGONAL");
+            resetGrid();
             break;
-          } 
-          
-          else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
-            console.log('cpu wins');
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+            console.log("cpu wins");
+            resetGrid();
             break;
           }
         }
@@ -302,7 +264,6 @@
           console.log("Resetting grid");
           resetGrid();
         }
-
       }
     </script>
   </body>
