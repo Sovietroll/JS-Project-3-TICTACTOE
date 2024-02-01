@@ -36,9 +36,9 @@
         width: 320px;
         height: 320px;
         background-image: url(grid1.png);
-        background-size: cover;
+        background-size:cover;
         background-color: white;
-        border-radius: 50px;
+        border-radius:50px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
       }
@@ -126,9 +126,23 @@
       .css-cpu-button-after {
         background-color: red;
       }
+
+      .css-intro{
+        color: white;
+        font-size: 40px;
+      }
+      .css-intro-x, .css-intro-o {
+        width: 50px;
+      }
     </style>
   </head>
   <body>
+    <div class="css-intro">Lorem <br> ipsum
+    </br>
+    <button class="css-intro-x js-intro-x">X</button>
+    <button class="css-intro-o js-intro-o">O</button>
+    </div>
+
     <section class="board js-board">
       <div class="cell">0</div>
       <div class="cell">0</div>
@@ -142,6 +156,24 @@
     </section>
 
     <script>
+      let playerChooseX = true;
+      
+      const introButtonX = document.querySelector('.js-intro-x');
+      const introButtonO = document.querySelector('.js-intro-o');
+
+      introButtonX.addEventListener('click',chooseX);
+      introButtonO.addEventListener('click',chooseO);
+
+      function chooseX (){
+        playerChooseX = true;
+        console.log(playerChooseX);
+      }
+
+      function chooseO(){
+        playerChooseX = false;
+        console.log(playerChooseX);
+      }
+
       let playerOne = 1;
       let cpuBot = -1;
 
@@ -163,26 +195,30 @@
 
         if (boardData[randomCol][randomRow] === 0) {
           boardData[randomCol][randomRow]= -1;
-        } 
-        else if (checkGameRunning() === true){
-            gameTie();
-            gameActive = false;
+          checkCellLeftOver()
         } 
         else if (boardData[randomCol][randomRow] === 1 || boardData[randomCol][randomRow] === -1
         ){
           cpuMove();
+          return;
         }
         }
 
-        function checkGameRunning(){
-          for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < 3; j++)
-            if (boardData[i][j] !== 3 || boardData[i][j] !== -3) {
-              return true;
+        let gameRunning = true;
+
+        function checkCellLeftOver(){
+          for(let i = 0; i < 3; i++){
+            for(let j=0; j < 3; j++) {
+              if (boardData[i][j] !== 0){
+                gameRunning = true;
+                return; 
+              } else {
+                gameRunning = false;
+                //stop function cpuMove to run here
+              }
             }
           }
         }
-        console.log(checkGameRunning())
 
         
       cellElements = document.querySelectorAll(".cell");
@@ -216,11 +252,18 @@
           let col = index % 3;
           let row = Math.floor(index / 3);
 
-          if (boardData[row][col] === 1) {
+          if (boardData[row][col] === 1 && playerChooseX === true) {
             cell.classList.add("cross");
-          } else if (boardData[row][col] === -1) {
+          } else if (boardData[row][col] === 1 && playerChooseX === false){
+            cell.classList.add("circle")
+          } 
+          
+          else if (boardData[row][col] === -1 && playerChooseX === true) {
             cell.classList.add("circle");
-          } else if (boardData[row][col] === 0) {
+          } else if(boardData[row][col] === -1 && playerChooseX === false) {
+            cell.classList.add("cross")
+          } 
+          else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
             cell.classList.remove("circle");
           }
