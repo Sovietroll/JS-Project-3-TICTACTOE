@@ -11,8 +11,11 @@
       
      -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
       
-
-     -BUG - Tie game is error/not registering/call stack size exceed PROBLEM - last cell, if place, computer will try to place the circle too cause 'Call stack exceed'
+     -BUG If click 'the cell is full!' there will be bug with cellTotal function
+     -BUG - Issue with lastCell count randomly turn into 1 when its not even last cell
+     -BUG FIXED- Tie game is error/not registering/call stack size exceed PROBLEM
+     last cell, if place, computer will try to place the circle too cause 'Call stack exceed'
+     (Fixed by using cellCount each round, cellCount used like a countdown)
      -BUG FIXED- some cpu move doesnt appear
      -BUG FIXED - fixed randomCol and randomRow doesnt appear correctly
 
@@ -23,7 +26,7 @@
         padding: 0;
       }
       body {
-        background-color: rgb(32, 27, 27);
+        background-color: rgb(81, 76, 76);
         font-family: arial;
         display: flex;
         flex-direction: column;
@@ -132,7 +135,18 @@
         font-size: 40px;
       }
       .css-intro-x, .css-intro-o {
-        width: 50px;
+        width: 80px;
+        border-radius: 25px;
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+
+      .css-reset {
+        width: 70px;
+        height: 20px;
+        margin-top: 20px;
+        border-style: none;
+        border-radius: 35px;
       }
     </style>
   </head>
@@ -155,11 +169,22 @@
       <div class="cell">2</div>
     </section>
 
+    <div>
+      <button class="css-reset js-reset">
+        Reset
+      </button>
+    </div>
+
     <script>
+      
       let playerChooseX = true;
       
       const introButtonX = document.querySelector('.js-intro-x');
       const introButtonO = document.querySelector('.js-intro-o');
+
+      const resetButton = document.querySelector('.js-reset');
+      resetButton.addEventListener('click', resetGrid);
+
 
       introButtonX.addEventListener('click',chooseX);
       introButtonO.addEventListener('click',chooseO);
@@ -183,19 +208,18 @@
         [0, 0, 0],
       ];
 
-      let gameActive = true;
 
       function cpuMove() {
-        if (!gameActive) {
+        if(lastCell){
           return;
         }
 
         const randomRow = Math.floor(Math.random() * 3); //round up to 0,1,2 NOTED THIS new info
         const randomCol = Math.floor(Math.random() * 3);
 
-        if (boardData[randomCol][randomRow] === 0) {
+        if (boardData[randomCol][randomRow] === 0){
           boardData[randomCol][randomRow]= -1;
-          checkCellLeftOver()
+
         } 
         else if (boardData[randomCol][randomRow] === 1 || boardData[randomCol][randomRow] === -1
         ){
@@ -204,22 +228,28 @@
         }
         }
 
-        let gameRunning = true;
+        let cellCount = 0;
+        let lastCell = false;
 
-        function checkCellLeftOver(){
+
+        function cellTotal(){
+          cellCount = 0;
+
           for(let i = 0; i < 3; i++){
             for(let j=0; j < 3; j++) {
-              if (boardData[i][j] !== 0){
-                gameRunning = true;
-                return; 
-              } else {
-                gameRunning = false;
-                //stop function cpuMove to run here
+              if (boardData[i][j] === 0){
+                cellCount++;
+                lastCell = false;
+              } else if (cellCount === -1){
+                lastCell = true;
+                return;
               }
             }
           }
+          console.log(`cellCount ${cellCount}`);
         }
 
+        //cell count 16 is the last cell
         
       cellElements = document.querySelectorAll(".cell");
 
@@ -237,12 +267,14 @@
 
         if (boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
+          cellTotal();
           cpuMove();
           drawMarker();
           checkResult();
           console.log(boardData);
         } else {
           console.log("cell is full!");
+          cellTotal();
         }
       }
 
@@ -279,6 +311,8 @@
           }
         }
         drawMarker();
+        cellCount = 0;
+        lastCell = false;
       };
 
       function gameTie(){
@@ -312,19 +346,19 @@
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
-          if (rowSum === 3 || colSum === 3) {
+          if (rowSum === 3 || colSum === 3 && !lastCell) {
             playerWins();
             break;
 
-          } else if (rowSum === -3 || colSum === -3) {
+          } else if (rowSum === -3 || colSum === -3 && !lastCell) {
             cpuWins();
             break;
 
-          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
+          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && !lastCell) {
             playerWins();
             break;
 
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && !lastCell) {
             cpuWins();
             break;
           }
