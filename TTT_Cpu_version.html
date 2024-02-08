@@ -159,17 +159,27 @@
       }
 
       .css-reset {
-        width: 70px;
-        height: 20px;
+        font-size: 25px;
+        width: 200px;
         margin-top: 20px;
         border-style: none;
         border-radius: 35px;
       }
+      .css-reset:active {
+        background-color: red;
+      }
       .css-resetscore {
+        font-size: 25px;
         width: 150px;
         margin-top: 20px;
         border-style: none;
         border-radius: 35px;
+      }
+      .css-resetscore:active {
+        background-color: red;
+      }
+      .css-scoreboard {
+        font-size: 30px;
       }
     </style>
   </head>
@@ -194,15 +204,17 @@
 
     <div>
       <button class="css-reset js-reset">
-        RESET
+        Reset boardData
       </button>
       
       <button class="css-resetscore js-resetscore">
-        RESET SCORE
+        Reset Score
       </button>
     </div>
-<div class="js-scoreboard">
-  Wins = 0 Cpu Wins = 0 Tie = 0
+<div class="js-scoreboard css-scoreboard">
+  Wins = 0 <br>
+  Cpu Wins = 0 <br>
+  Tie = 0
 </div>
     <script>
       
@@ -225,14 +237,16 @@
         console.log(playerChooseX);
         introButtonX.classList.add('css-intro-x-after');
         introButtonO.classList.remove('css-intro-o-after');
-      }
+        console.log('Choose X');
+      };
 
       function chooseO(){
         playerChooseX = false;
         console.log(playerChooseX);
         introButtonO.classList.add('css-intro-o-after');
         introButtonX.classList.remove('css-intro-x-after');
-      }
+        console.log('Choose O')
+      };
 
       const score = document.querySelector('.js-scoreboard');
 
@@ -255,9 +269,9 @@
         const randomCol = Math.floor(Math.random() * 3);
 
         if (boardData[randomCol][randomRow] === 0){
-          boardData[randomCol][randomRow]= -1;
-
+          boardData[randomCol][randomRow] = -1;
         } 
+
         else if (boardData[randomCol][randomRow] === 1 || boardData[randomCol][randomRow] === -1
         ){
           cpuMove();
@@ -351,6 +365,7 @@
         playerWinsScore = 0;
         cpuWinsScore = 0;
         tieGame = 0;
+        console.log('reset grid');
       };
 
       function resetScore(){
@@ -359,20 +374,20 @@
         tieGame = 0;
 
         score.innerHTML = `
-        <p> Wins = ${playerWinsScore}
-          Cpu Wins = ${cpuWinsScore}
+        <p> Wins = ${playerWinsScore} <br>
+          Cpu Wins = ${cpuWinsScore} <br>
           Tie = ${tieGame} </p>
           `;
 
 
-        console.log(`RESET`)
+        console.log(`reset score`)
       }
 
       function gameTie(){
         setTimeout(function () {
           alert(`TIE`);
-        },400)
-        resetGrid();
+          resetGrid();
+        },600)
         tieGame++;
       };
       
@@ -410,6 +425,7 @@
 
           if (rowSum === 3 || colSum === 3) {
             playerWins();
+            console.log('row wins');
             break;
 
           } else if (rowSum === -3 || colSum === -3) {
@@ -418,6 +434,7 @@
 
           } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             playerWins();
+            console.log('diagonal wins');
             break;
 
           } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
@@ -429,29 +446,27 @@
 
 
         score.innerHTML = `
-        <p> Wins = ${playerWinsScore}
-          Cpu Wins = ${cpuWinsScore}
+        <p> Wins = ${playerWinsScore} <br>
+          Cpu Wins = ${cpuWinsScore} <br>
           Tie = ${tieGame} </p>
           `;
+
 
         //TIE GAME HERE
         let isTie = true;
 
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++)
-            if (boardData[i][j] === 1 || boardData[i][j] === -1) {
+            if (boardData[i][j] === 1 || boardData[i][j] === -1 || boardData[i][j] === 0) {
               isTie = false; //someone winning
               break;
             }
-            else {
-              isTie = true;
-            }
-        }
-        if (isTie && lastCell) {
-          console.log('TIE');
+            };
+        if (isTie || lastCell) {
           gameTie();
+          console.log(`runs TIE`);
         }
-        console.log(`isTie ${isTie}`)
+        console.log(`isTie ${isTie}`);
 
       }
     </script>
