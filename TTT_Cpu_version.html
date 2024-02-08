@@ -11,12 +11,18 @@
       
      -make a game with cpu FUTURE //Different file because it's complicated// CURRENT PROJECT
       
-     -BUG If click 'the cell is full!' there will be bug with cellTotal function
-     -BUG - Issue with lastCell count randomly turn into 1 when its not even last cell
+     -BUG - Game conflicts will player wins and tie game
+
+     -BUG FIXED If click 'the cell is full!' there will be bug with cellTotal function
+
+     -BUG FIXED - Issue with lastCell count randomly turn into 1 when its not even last cell
+
      -BUG FIXED- Tie game is error/not registering/call stack size exceed PROBLEM
      last cell, if place, computer will try to place the circle too cause 'Call stack exceed'
      (Fixed by using cellCount each round, cellCount used like a countdown)
+
      -BUG FIXED- some cpu move doesnt appear
+     
      -BUG FIXED - fixed randomCol and randomRow doesnt appear correctly
 
 
@@ -133,12 +139,23 @@
       .css-intro{
         color: white;
         font-size: 40px;
+        justify-content: center;
+        align-items: center;
+        width: 320px;
+        font-size: 30px;
       }
       .css-intro-x, .css-intro-o {
         width: 80px;
         border-radius: 25px;
         padding: 5px;
         margin-bottom: 10px;
+        border-style: none;
+
+      }
+      .css-intro-x-after, .css-intro-o-after {
+        border-color: blue;
+        border-width: 5px;
+        border-style: inset;
       }
 
       .css-reset {
@@ -148,10 +165,16 @@
         border-style: none;
         border-radius: 35px;
       }
+      .css-resetscore {
+        width: 150px;
+        margin-top: 20px;
+        border-style: none;
+        border-radius: 35px;
+      }
     </style>
   </head>
   <body>
-    <div class="css-intro">Lorem <br> ipsum
+    <div class="css-intro">PICK YOUR PLAYER
     </br>
     <button class="css-intro-x js-intro-x">X</button>
     <button class="css-intro-o js-intro-o">O</button>
@@ -171,10 +194,16 @@
 
     <div>
       <button class="css-reset js-reset">
-        Reset
+        RESET
+      </button>
+      
+      <button class="css-resetscore js-resetscore">
+        RESET SCORE
       </button>
     </div>
-
+<div class="js-scoreboard">
+  Wins = 0 Cpu Wins = 0 Tie = 0
+</div>
     <script>
       
       let playerChooseX = true;
@@ -185,6 +214,8 @@
       const resetButton = document.querySelector('.js-reset');
       resetButton.addEventListener('click', resetGrid);
 
+      const resetScoreButton = document.querySelector('.js-resetscore');
+      resetScoreButton.addEventListener('click',resetScore)
 
       introButtonX.addEventListener('click',chooseX);
       introButtonO.addEventListener('click',chooseO);
@@ -192,12 +223,18 @@
       function chooseX (){
         playerChooseX = true;
         console.log(playerChooseX);
+        introButtonX.classList.add('css-intro-x-after');
+        introButtonO.classList.remove('css-intro-o-after');
       }
 
       function chooseO(){
         playerChooseX = false;
         console.log(playerChooseX);
+        introButtonO.classList.add('css-intro-o-after');
+        introButtonX.classList.remove('css-intro-x-after');
       }
+
+      const score = document.querySelector('.js-scoreboard');
 
       let playerOne = 1;
       let cpuBot = -1;
@@ -236,17 +273,15 @@
           cellCount = 0;
 
           for(let i = 0; i < 3; i++){
-            for(let j=0; j < 3; j++) {
+            for(let j = 0; j < 3; j++) {
               if (boardData[i][j] === 0){
                 cellCount++;
                 lastCell = false;
-              } else if (cellCount === -1){
+              } else if (cellCount === 1 || cellCount === 0){
                 lastCell = true;
-                return;
               }
             }
           }
-          console.log(`cellCount ${cellCount}`);
         }
 
         //cell count 16 is the last cell
@@ -271,7 +306,8 @@
           cpuMove();
           drawMarker();
           checkResult();
-          console.log(boardData);
+          console.log(`lastCell ${lastCell}`)
+
         } else {
           console.log("cell is full!");
           cellTotal();
@@ -304,7 +340,6 @@
 
 
       function resetGrid() {
-        //make two reset button, reset score and reset game
         for (let row = 0; row < 3; row++) {
           for (let col = 0; col < 3; col++) {
             boardData[row][col] = 0;
@@ -313,12 +348,32 @@
         drawMarker();
         cellCount = 0;
         lastCell = false;
+        playerWinsScore = 0;
+        cpuWinsScore = 0;
+        tieGame = 0;
       };
+
+      function resetScore(){
+        playerWinsScore = 0;
+        cpuWinsScore = 0;
+        tieGame = 0;
+
+        score.innerHTML = `
+        <p> Wins = ${playerWinsScore}
+          Cpu Wins = ${cpuWinsScore}
+          Tie = ${tieGame} </p>
+          `;
+
+
+        console.log(`RESET`)
+      }
 
       function gameTie(){
         setTimeout(function () {
           alert(`TIE`);
-        },1000)
+        },400)
+        resetGrid();
+        tieGame++;
       };
       
       function cpuWins(){
@@ -326,6 +381,7 @@
           alert('CPU WINS'),
           resetGrid()
         },400)
+        cpuWinsScore++;
       };
 
       function playerWins(){
@@ -333,9 +389,15 @@
           alert(`PLAYER WINS`),
           resetGrid()
         },400)
+        playerWinsScore++;
       };
 
+      let playerWinsScore = 0;
+      let cpuWinsScore = 0;
+      let tieGame = 0;
+
       function checkResult() {
+
         for (let i = 0; i < 3; i++) {
           let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
           let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
@@ -346,38 +408,51 @@
           let diagonalSumTwo =
             boardData[2][0] + boardData[1][1] + boardData[0][2];
 
-          if (rowSum === 3 || colSum === 3 && !lastCell) {
+          if (rowSum === 3 || colSum === 3) {
             playerWins();
             break;
 
-          } else if (rowSum === -3 || colSum === -3 && !lastCell) {
+          } else if (rowSum === -3 || colSum === -3) {
             cpuWins();
             break;
 
-          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3 && !lastCell) {
+          } else if (diagonalSumOne === 3 || diagonalSumTwo === 3) {
             playerWins();
             break;
 
-          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3 && !lastCell) {
+          } else if (diagonalSumOne === -3 || diagonalSumTwo === -3) {
             cpuWins();
             break;
-          }
+          } 
+           
         }
+
+
+        score.innerHTML = `
+        <p> Wins = ${playerWinsScore}
+          Cpu Wins = ${cpuWinsScore}
+          Tie = ${tieGame} </p>
+          `;
 
         //TIE GAME HERE
         let isTie = true;
+
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++)
-            if (boardData[i][j] !== 1 && boardData[i][j] !== -1) {
-              isTie = false;
+            if (boardData[i][j] === 1 || boardData[i][j] === -1) {
+              isTie = false; //someone winning
               break;
             }
+            else {
+              isTie = true;
+            }
         }
-        if (isTie) {
-          //isTie means if isTie is still true after the cell all filled
+        if (isTie && lastCell) {
+          console.log('TIE');
           gameTie();
-          resetGrid();
         }
+        console.log(`isTie ${isTie}`)
+
       }
     </script>
   </body>
