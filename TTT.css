@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background-color: rgb(32, 27, 27);
+    font-family: arial;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+  }
+
+  .board {
+    width: 320px;
+    height: 320px;
+    background-image: url(grid1.png);
+    background-size: cover;
+    background-color: white;
+    border-radius: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cross {
+    background-image: url(pngegg.png);
+    background-size: cover;
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .circle {
+    background-image: url(clipart431990.png);
+    background-size: cover;
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .ttt-css {
+    position: absolute;
+    top: 250px;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+  }
+  /*Use inline-grid to create 3 sections for reset buttons*/
+  .css-reset-game,
+  .css-reset-score {
+    display: inline-block;
+    margin-top: 20px;
+    width: 250px;
+    height: 50px;
+    border-style: none;
+    border-radius: 30px;
+    font-size: 30px;
+    background-color: rgb(5, 200, 247);
+  }
+  .css-reset-game:hover,
+  .css-reset-score:hover {
+    background-color: rgb(0, 156, 196);
+  }
+
+  .css-reset-game:active,
+  .css-reset-score:active {
+    background-color: rgb(77, 219, 255);
+    padding: 10px;
+  }
+
+  .container-score {
+    color: rgb(255, 0, 0);
+    position: relative;
+    top: 600px;
+    font-size: 30px;
+  }
+  .startup-container {
+    padding: 10px;
+    font-size: 30px;
+    background-color: rgb(42, 42, 42);
+    width: 5000px;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top: 100px;
+    display: flex;
+  }
+  .startup-container-text-inside {
+    color: white;
+    display: block;
+    color: rgb(193, 193, 193);
+  }
+
+  .button-player-one { /*START BUTTON*/
+    width: 200px;
+    height: 30px;
+    border-radius: 100px;
+    border-style: none;
+    color:rgb(0, 0, 0);
+    font-weight: 650;
+    font-size: 18px;
+  }
+  .button-player-one:hover {
+    transition: 0.45s;
+    background-color: rgb(155, 154, 154);
+  }
+  .css-x-button,
+  .css-o-button {
+    width: 150px;
+    height: 30px;
+    border-radius: 80px;
+    border-style: none;
+    cursor: pointer;
+    font-size: 25px;
+    transition: .5s ease;
+  }
+  .css-x-button:hover {
+    background-color: rgb(106, 106, 251);
+    transition: .5s;
+    color: white;
+  }
+  .css-o-button:hover {
+    background-color: rgb(250, 84, 84);
+    transition: .5s;
+    color: white;
+  }
+  .css-chooseXOrO {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    font-size: 30px;
+  }
+
+  .startup-container-two {
+    color: rgb(244, 0, 0);
+  }
+
+  .css-cpu-button {
+    width: 200px;
+    height: 100px
+  }
+
+  .css-cpu-button-after {
+    background-color: red;
+  }
+
+  .css-turns {
+    color: white;
+  }
+
+  .css-startup-container-three-player-button,.css-startup-container-three-cpu-button{
+    width: 200px;
+    height: 30px;
+    border-radius: 80px;
+    border-style: none;
+    cursor: pointer;
+    font-size: 20px;
+    transition: .5s ease;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+  }
+  .css-startup-container-three-player-button:hover,.css-startup-container-three-cpu-button:hover{
+    background-color: rgb(106, 106, 251);
+    transition: .5s;
+    font-weight: bold;
+    color: white;
+    padding: 20px;
+  }
+  .css-startup-container-three-player-button-afterClick, .css-startup-container-three-cpu-button-afterClick{
+    border-color: rgb(255, 0, 132);
+    background-color:rgb(255, 0, 132);
+    border-width: 10px;
+    border-style: solid;
+    font-weight: 700;
+    transition: 1s;
+  }
