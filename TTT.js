@@ -14,13 +14,13 @@ let chooseX = true;
       const startUpContainerThree = document.querySelector('.js-startup-container-three');
 
       const vsPlayerButton = document.querySelector('.js-startup-container-three-player-button');
-      vsPlayerButton.addEventListener('click', preGameAfterClick);
+      vsPlayerButton.addEventListener('click', preVsPlayer);
 
       const vsCpuButton = document.querySelector('.js-startup-container-three-cpu-button');
-      vsCpuButton.addEventListener('click', preGameAfterClick)
+      vsCpuButton.addEventListener('click', preVsCpu);
 
       let turnsText = document.querySelector(".js-turns"); //TURNS
-      const startUp = document.querySelector(".js-startup-container");
+      const startUp = document.querySelector(".js-startup-container"); //STARTUP SCREEN
       const gridDisplay = document.querySelector(".js-board");
       const buttonOne = document.querySelector(".js-button-playerOne");
       const containerScore = document.querySelector(".container-score");
@@ -43,19 +43,19 @@ let chooseX = true;
         preGameAfterClick2 ();
       }
 
-
+      //STARTUP SCREEN
       buttonOne.addEventListener("click", () => {
         preGame();
         console.log("player click Start button");
       });
-      
+
       startUpContainerTwo.style.display = "none";
       containerScore.style.display = "none";
       buttonBottom.style.display = "none";
       turnsText.style.display = "none";
       
       function preGame() {
-        startUp.style.display = "none";
+        startUp.style.display = "none"; //STARTUP SCREEN
         startUpContainerThree.style.display = "block"
         startUpContainerTwo.style.display = "none"; //from block
         containerScore.style.display = "none";
@@ -74,11 +74,7 @@ let chooseX = true;
         gridDisplay.style.visibility = "hidden";
       }
 
-      let vsTogglePlayer = true;
-
-      function toggleVsButton(){
-        vsTo
-      }
+      let vsTogglePlayer;
 
       function preGameAfterClick (){
         startUp.style.display = "none";
@@ -87,8 +83,26 @@ let chooseX = true;
         buttonBottom.style.display = "none";
         turnsText.style.display = "none";
         gridDisplay.style.visibility = "hidden";
-        if ()
-        vsPlayerButton.classList.add("css-startup-container-three-player-button-afterClick");
+        if(vsTogglePlayer){
+          vsPlayerButton.classList.add("css-startup-container-three-player-button-afterClick");
+          vsCpuButton.classList.remove("css-startup-container-three-cpu-button-afterClick");
+        } else {
+          vsCpuButton.classList.add("css-startup-container-three-cpu-button-afterClick");
+          vsPlayerButton.classList.remove("css-startup-container-three-player-button-afterClick");
+        }
+      }
+
+      function preVsPlayer(){
+        vsTogglePlayer = true;
+        preGameAfterClick();
+        console.log(`vsTogglePlayer ${vsTogglePlayer}`);
+      }
+
+      function preVsCpu(){
+        vsTogglePlayer = false;
+        preGameAfterClick();
+        console.log(`vsTogglePlayer ${vsTogglePlayer}`);
+
       }
 
       function preGameAfterClick2(){
@@ -101,13 +115,6 @@ let chooseX = true;
         gridDisplay.style.visibility = "visible";
       }
 
-      /*   startUp.style.display = "none";
-        startUpContainerTwo.style.display = "none";
-        containerScore.style.display = "block";
-        buttonBottom.style.display = "block";
-        turnsText.style.display = "block";
-        gridDisplay.style.visibility = "visible";*/
-      
       let boardData = [
         [0, 0, 0],
         [0, 0, 0],
@@ -126,49 +133,124 @@ let chooseX = true;
 
 
 
-      let turns; //this outside function, it keeps looping to true
-      
+      let permanentTurns;
+      let swingTurnsX;
+      let swingTurnsO;
+
       function playerChooseOX(){
-        if (chooseX) {
-          turns = true;
+        if (chooseX === true) {
+          swingTurnsX = true;
+          swingTurnsO = false;
+          permanentTurns = true;
         } else{
-          turns = false;
+          swingTurnsX = false;
+          swingTurnsO = true;
+          permanentTurns = false;
         }
       }
-
-      
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
 
-
-        if (boardData[row][col] === 0) {
+        if (vsTogglePlayer === true && boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
           playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
           //Using unary negation operator (playerOne becomes negative)
           //equivalent to multiplying 'playerOne' by -1
-          
+          console.log('vs player');
           drawMarker();
           checkResult();
-          console.log(turns);
+          console.log(`permanentTurns ${permanentTurns}`)
 
-          if (turns === true){
-            turnsText.innerHTML = (`Next turn O`);
-            turns = false;
+          if (swingTurnsX === true && permanentTurns === true){
+            turnsText.innerHTML = (`Player 2 <br> Next turn O`);
+            swingTurnsX = false;
+            console.log('1');
 
+          } else if (swingTurnsX === false && permanentTurns === true){
+            turnsText.innerHTML = (`Player 1 <br> Next turn X`);
+            swingTurnsX = true;
+            console.log('2');
             
-          } else if (turns === false) {
-            turnsText.innerHTML = (`Next turn X`);
-            turns = true;
-          }} 
+          } if (swingTurnsO === true && permanentTurns === false){
+            turnsText.innerHTML = (`Player 2 <br> Next turn X`);
+            swingTurnsO = false; 
+            console.log('3');
 
+          } else if (swingTurnsO === false && permanentTurns === false){
+            turnsText.innerHTML = (`Player 1 <br> Next turn O`);
+            swingTurnsO = true; 
+            console.log('4');
+          }
+          
+        } 
 
           else {
-           console.log("cell is full!");
+           console.log("cell is full! 2");
           }
-
       }
       
+      //vs player running this wrongly
+      function placeMarkers2(index) {
+        let col = index % 3;
+        let row = (index - col) / 3;
+
+        if (vsTogglePlayer === false && boardData[row][col] === 0) {
+          boardData[row][col] = playerOne;
+          cellTotal();
+          cpuMove();
+          drawMarker();
+          checkResult();
+
+        } else {
+          console.log("cell is full! 3");
+          cellTotal();
+        }
+      }
+
+      function cpuMove() {
+        if(lastCell){
+          return;
+        }
+
+        const randomRow = Math.floor(Math.random() * 3); //round up to 0,1,2 NOTED THIS new info
+        const randomCol = Math.floor(Math.random() * 3);
+
+        if (boardData[randomCol][randomRow] === 0){
+          boardData[randomCol][randomRow] = -1;
+        } 
+
+        else if (boardData[randomCol][randomRow] === 1 || boardData[randomCol][randomRow] === -1
+        ){
+          cpuMove();
+          return;
+        }
+        }
+
+        let cellCount = 0;
+        let lastCell = false;
+
+
+        function cellTotal(){
+          cellCount = 0;
+
+          for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++) {
+              if (boardData[i][j] === 0){
+                cellCount++;
+                lastCell = false;
+              } else if (cellCount === 1 || cellCount === 0){
+                lastCell = true;
+              }
+            }
+          }
+        }
+
+        //cell count 16 is the last cell
+        
+      let playerPlaced = false;
+      let nextTurns = '';
+      let nextTurnsPlayer = '';
 
       function drawMarker() {
         //REMOVE ALL ICON X's and O's
@@ -178,20 +260,16 @@ let chooseX = true;
 
          if (boardData[row][col] === 1 && chooseX) {
             cell.classList.add("cross");
-
           } 
           
           else if (boardData[row][col] === -1 && chooseX) {
             cell.classList.add("circle");
-
           }  
             else if (boardData[row][col] === 1 && !chooseX) {
             cell.classList.add("circle");
-            
 
           } else if (boardData[row][col] === -1 && !chooseX) {
             cell.classList.add("cross");
-            
             
           } else if (boardData[row][col] === 0) {
             cell.classList.remove("cross"); //RESET FEATURE
@@ -236,6 +314,14 @@ let chooseX = true;
       let playerTwoWins = 0;
       let playerTie = 0;
       let winScore = document.querySelector(".js-wins");
+
+      function gameTie(){
+        setTimeout(function () {
+          alert(`TIE`);
+          resetGrid();
+        },600)
+        tieGame++;
+      };
 
       function playerOneResult() {
         setTimeout(function () {
@@ -291,18 +377,14 @@ let chooseX = true;
         let isTie = true;
         for (let i = 0; i < 3; i++) {
           for (let j = 0; j < 3; j++)
-            if (boardData[i][j] !== 1 && boardData[i][j] !== -1) {
-              isTie = false;
+            if (boardData[i][j] === 1 || boardData[i][j] === -1 || boardData[i][j] === 0) {
+              isTie = false; //someone winning
               break;
             }
-        }
-        if (isTie) {
-          //isTie means if isTie is still true after the cell all filled
-          setTimeout(function () {
-            alert("Tie");
-          }, 100);
-          playerTie++;
-          resetGrid();
+            };
+        if (isTie || lastCell) {
+         gameTie();
+         console.log('runs TIE');
         }
 
         winScore.innerHTML = `Player 1 Wins = ${playerWins} 

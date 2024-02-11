@@ -102,7 +102,6 @@
     font-size: 18px;
   }
   .button-player-one:hover {
-    transition: 0.45s;
     background-color: rgb(155, 154, 154);
   }
   .css-x-button,
