@@ -28,20 +28,54 @@ let chooseX = true;
 
 
       function buttonEX() {
+        
         chooseX = true;
-        startUpContainerTwo.style.display = "none";
+        console.log(`chooseX ${chooseX}`);
         playerChooseOX();
-        console.log("Player choose X");
-        preGameAfterClick2 ();
+        if(chooseX){
+          buttonX.classList.add("css-x-button-after-click");
+          buttonO.classList.remove("css-o-button-after-click");
+        };
+        document.querySelector('.js-confirmation').innerHTML =
+        `
+        <h2 class="css-areyousure">
+        Are you sure? 
+        </h2>
+        <button class = "css-buttonConfirmation">Yes</button>
+        
+        <button class = "css-buttonConfirmation2">No</button>
+        `
+        ;
+        document.querySelector('.css-buttonConfirmation2').addEventListener('click',noButton);
+      }
+      function noButton(){
+        document.querySelector('.js-confirmation').style.display = "none";
       }
 
       function buttonOW() {
         chooseX = false;
-        startUpContainerTwo.style.display = "none";
+        console.log(`chooseX ${chooseX}`);
         playerChooseOX();
-        console.log("Player choose O");
-        preGameAfterClick2 ();
+        if(!chooseX){
+          buttonO.classList.add("css-o-button-after-click");
+          buttonX.classList.remove("css-x-button-after-click");
+        };
+        document.querySelector('.js-confirmation').innerHTML =
+       `
+       <h2 class="css-areyousure">
+       Are you sure? 
+       </h2>
+       <button class = "css-buttonConfirmation">Yes</button>
+       
+       <button class = "css-buttonConfirmation2">No</button>
+       `
+       ;
+       document.querySelector('.css-buttonConfirmation').addEventListener('click',preGameAfterClick2);
       }
+
+
+      const buttonConfirmation = document.querySelector('.js-confirmation-button');
+
 
       //STARTUP SCREEN
       buttonOne.addEventListener("click", () => {
@@ -106,6 +140,7 @@ let chooseX = true;
       }
 
       function preGameAfterClick2(){
+        document.querySelector('.js-confirmation').style.display = "none"
         startUp.style.display = "none";
         startUpContainerThree.style.display = "none"
         startUpContainerTwo.style.display = "none";

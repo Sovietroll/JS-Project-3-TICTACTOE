@@ -124,6 +124,28 @@
     transition: .5s;
     color: white;
   }
+  .css-x-button-after-click{
+    width: 150px;
+    height: 30px;
+    border-radius: 80px;
+    border-style: none;
+    cursor: pointer;
+    font-size: 25px;
+    background-color: rgb(106, 106, 251);
+    transition: .5s;
+    color: white;
+  }
+  .css-o-button-after-click{
+    width: 150px;
+    height: 30px;
+    border-radius: 80px;
+    border-style: none;
+    cursor: pointer;
+    font-size: 25px;
+    background-color: rgb(250, 84, 84);
+    transition: .5s;
+    color: white;
+  }
   .css-chooseXOrO {
     justify-content: center;
     align-items: center;
@@ -175,4 +197,28 @@
     border-style: solid;
     font-weight: 700;
     transition: 1s;
+  }
+  .css-buttonConfirmation, .css-buttonConfirmation2{
+    margin-top: 20px;
+    height: 50px;
+    width: 200px;
+    border-style: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: .5s ease;
+  }
+
+  .css-buttonConfirmation:hover {
+    background-color: rgb(255, 139, 151);
+  }
+  .css-buttonConfirmation2:hover {
+    background-color: rgb(168, 139, 255);
+  }
+  .css-areyousure{ /*ARE YOU SURE BUTTON*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-top: 50px;
   }
