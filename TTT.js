@@ -28,9 +28,7 @@ let chooseX = true;
 
 
       function buttonEX() {
-        
         chooseX = true;
-        console.log(`chooseX ${chooseX}`);
         playerChooseOX();
         if(chooseX){
           buttonX.classList.add("css-x-button-after-click");
@@ -42,19 +40,13 @@ let chooseX = true;
         Are you sure? 
         </h2>
         <button class = "css-buttonConfirmation">Yes</button>
-        
-        <button class = "css-buttonConfirmation2">No</button>
         `
-        ;
-        document.querySelector('.css-buttonConfirmation2').addEventListener('click',noButton);
-      }
-      function noButton(){
-        document.querySelector('.js-confirmation').style.display = "none";
+        document.querySelector('.css-buttonConfirmation').addEventListener('click', preGameAfterClick2);
+    
       }
 
       function buttonOW() {
         chooseX = false;
-        console.log(`chooseX ${chooseX}`);
         playerChooseOX();
         if(!chooseX){
           buttonO.classList.add("css-o-button-after-click");
@@ -66,11 +58,9 @@ let chooseX = true;
        Are you sure? 
        </h2>
        <button class = "css-buttonConfirmation">Yes</button>
-       
-       <button class = "css-buttonConfirmation2">No</button>
        `
-       ;
-       document.querySelector('.css-buttonConfirmation').addEventListener('click',preGameAfterClick2);
+       document.querySelector('.css-buttonConfirmation').addEventListener('click', preGameAfterClick2);
+
       }
 
 
@@ -162,15 +152,23 @@ let chooseX = true;
 
       cellElements.forEach((cell, index) => {
         cell.addEventListener("click", () => {
-          placeMarkers(index);
-        });
-      });
+          runPlaceMarkers();
+        }); function runPlaceMarkers(){
+          if (vsTogglePlayer === true) {
+            placeMarkers(index);
+          } else {
+            placeMarkers2(index);
+          }
+        }
+      }
+      );
 
 
 
       let permanentTurns;
       let swingTurnsX;
       let swingTurnsO;
+
 
       function playerChooseOX(){
         if (chooseX === true) {
@@ -183,6 +181,7 @@ let chooseX = true;
           permanentTurns = false;
         }
       }
+      //vsplayer should run this
       function placeMarkers(index) {
         let col = index % 3;
         let row = (index - col) / 3;
@@ -195,7 +194,6 @@ let chooseX = true;
           console.log('vs player');
           drawMarker();
           checkResult();
-          console.log(`permanentTurns ${permanentTurns}`)
 
           if (swingTurnsX === true && permanentTurns === true){
             turnsText.innerHTML = (`Player 2 <br> Next turn O`);
@@ -221,25 +219,26 @@ let chooseX = true;
         } 
 
           else {
-           console.log("cell is full! 2");
+           console.log("cell is full! 1");
+           console.log(boardData);
           }
       }
       
-      //vs player running this wrongly
+      //vscpu wont run this
       function placeMarkers2(index) {
         let col = index % 3;
         let row = (index - col) / 3;
 
         if (vsTogglePlayer === false && boardData[row][col] === 0) {
           boardData[row][col] = playerOne;
+          console.log('vs cpu');
           cellTotal();
           cpuMove();
           drawMarker();
           checkResult();
 
         } else {
-          console.log("cell is full! 3");
-          cellTotal();
+          console.log("cell is full! 2");
         }
       }
 
@@ -247,10 +246,8 @@ let chooseX = true;
         if(lastCell){
           return;
         }
-
         const randomRow = Math.floor(Math.random() * 3); //round up to 0,1,2 NOTED THIS new info
         const randomCol = Math.floor(Math.random() * 3);
-
         if (boardData[randomCol][randomRow] === 0){
           boardData[randomCol][randomRow] = -1;
         } 
@@ -264,7 +261,6 @@ let chooseX = true;
 
         let cellCount = 0;
         let lastCell = false;
-
 
         function cellTotal(){
           cellCount = 0;
@@ -348,14 +344,14 @@ let chooseX = true;
       let playerWins = 0;
       let playerTwoWins = 0;
       let playerTie = 0;
-      let winScore = document.querySelector(".js-wins");
+      let winScore = document.querySelector(".js-wins css-wins");
 
       function gameTie(){
         setTimeout(function () {
           alert(`TIE`);
           resetGrid();
         },600)
-        tieGame++;
+        playerTie++;
       };
 
       function playerOneResult() {

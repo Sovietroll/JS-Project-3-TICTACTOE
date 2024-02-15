@@ -15,24 +15,24 @@
   .board {
     width: 320px;
     height: 320px;
-    background-image: url(grid1.png);
+    background-image: url(v69BjIK.png);
     background-size: cover;
     background-color: white;
-    border-radius: 50px;
+    border-radius: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
   .cross {
-    background-image: url(pngegg.png);
+    background-image: url(cross-01.png);
     background-size: cover;
-    background-size: 50%;
+    background-size: 60%;
     background-position: center;
     background-repeat: no-repeat;
   }
   .circle {
-    background-image: url(clipart431990.png);
+    background-image: url(circle-01.png);
     background-size: cover;
-    background-size: 50%;
+    background-size: 60%;
     background-position: center;
     background-repeat: no-repeat;
   }
@@ -44,17 +44,18 @@
     font-size: 50px;
     font-weight: bold;
   }
+  
   /*Use inline-grid to create 3 sections for reset buttons*/
   .css-reset-game,
   .css-reset-score {
     display: inline-block;
     margin-top: 20px;
-    width: 250px;
-    height: 50px;
+    width: 200px;
+    height: 30px;
     border-style: none;
     border-radius: 30px;
-    font-size: 30px;
-    background-color: rgb(5, 200, 247);
+    font-size: 20px;
+    transition: .5s ease;
   }
   .css-reset-game:hover,
   .css-reset-score:hover {
@@ -98,12 +99,19 @@
     border-radius: 100px;
     border-style: none;
     color:rgb(0, 0, 0);
-    font-weight: 650;
     font-size: 18px;
+    transition: .5s ease;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
   }
   .button-player-one:hover {
     background-color: rgb(155, 154, 154);
+    font-weight: bold;
+    padding: 30px;
   }
+
   .css-x-button,
   .css-o-button {
     width: 150px;
@@ -118,11 +126,14 @@
     background-color: rgb(106, 106, 251);
     transition: .5s;
     color: white;
+    font-weight: bold;
   }
   .css-o-button:hover {
     background-color: rgb(250, 84, 84);
     transition: .5s;
     color: white;
+    font-weight: bold;
+
   }
   .css-x-button-after-click{
     width: 150px;
@@ -134,6 +145,8 @@
     background-color: rgb(106, 106, 251);
     transition: .5s;
     color: white;
+    font-weight: bold;
+
   }
   .css-o-button-after-click{
     width: 150px;
@@ -145,6 +158,8 @@
     background-color: rgb(250, 84, 84);
     transition: .5s;
     color: white;
+    font-weight: bold;
+
   }
   .css-chooseXOrO {
     justify-content: center;
@@ -182,43 +197,69 @@
     align-items: center;
     justify-content: center;
     margin: 10px;
+    display: flex;
   }
-  .css-startup-container-three-player-button:hover,.css-startup-container-three-cpu-button:hover{
-    background-color: rgb(106, 106, 251);
+  .css-startup-container-three-player-button:hover{
+    background-color: rgb(255, 95, 159);
     transition: .5s;
     font-weight: bold;
     color: white;
-    padding: 20px;
   }
-  .css-startup-container-three-player-button-afterClick, .css-startup-container-three-cpu-button-afterClick{
-    border-color: rgb(255, 0, 132);
-    background-color:rgb(255, 0, 132);
+  .css-startup-container-three-cpu-button:hover{
+    background-color: rgb(255, 95, 159);
+    transition: .5s;
+    font-weight: bold;
+    color: white;
+  }
+  .css-startup-container-three-player-button-afterClick{
+    border-color: rgb(106, 106, 251);
+    background-color:rgb(106, 106, 251);
     border-width: 10px;
     border-style: solid;
     font-weight: 700;
-    transition: 1s;
+    transition: 1s ease;
+    padding: 10px;
+    color: white;
   }
-  .css-buttonConfirmation, .css-buttonConfirmation2{
+  .css-startup-container-three-cpu-button-afterClick{
+    border-color: rgb(250, 84, 84);
+    background-color:rgb(250, 84, 84);
+    border-width: 10px;
+    border-style: solid;
+    font-weight: 700;
+    transition: 1s ease;
+    padding: 10px;
+    color: white;
+
+  }
+  .css-buttonConfirmation{
     margin-top: 20px;
     height: 50px;
     width: 200px;
     border-style: none;
     border-radius: 50px;
-    font-weight: bold;
     font-size: 20px;
     transition: .5s ease;
   }
 
   .css-buttonConfirmation:hover {
-    background-color: rgb(255, 139, 151);
+    background-color: rgb(255, 95, 159);
+    font-weight: bold;
+    color: white;
   }
-  .css-buttonConfirmation2:hover {
-    background-color: rgb(168, 139, 255);
-  }
+
   .css-areyousure{ /*ARE YOU SURE BUTTON*/
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     margin-top: 50px;
+  }
+  .css-wins{ /*player 1 wins text */
+    justify-content: center;
+    display: flex;
+    text-align:end;
+    color: white;
+    font-size: 25px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }

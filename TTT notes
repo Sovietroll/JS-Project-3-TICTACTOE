@@ -1,7 +1,12 @@
      CURRENT
      -Finishing the feature switch player with cpu
      
-     -BUG - Turns not appear correctly 
+     -BUG - (vsCpu) problem, cross or circle not appear correctly
+     should run placemarkers2
+
+     -Bug tie (vsPlayer) tie not occur properly 
+
+     -BUG FIXED - (vsPlayer) Turns not appear correctly 
 
      -BUG FIXED- Game conflicts will player wins and tie game
 
@@ -19,7 +24,7 @@
      -BUG FIXED: grid non-interactive after place 'style.display' (fixed with using style.visibility)
      -BUG FIXED: turn statement doesnt appear correctly
      -BUG FIXED: diagonal wins repeat 3 times (Use 'break' because the win looping 'checkResult' 3 times)
-     -BUG FIXED: double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot
+     -BUG FIXED: double cross with vs CPU current Issue DONE(fixed playerOne = -playerOne not cpuBot)
       -make a startup screen if you are X or O JAVA DONEs
       -bug double click X turns into O FIXED
         - score is still -1 after double click, only the icon changed
@@ -33,45 +38,3 @@
       -create 2 buttons DONE
       -reset game (remove cross and circle) DONE
       
-            function placeMarkers(index) {
-        let col = index % 3;
-        let row = (index - col) / 3;
-
-        if (vsTogglePlayer === true && boardData[row][col] === 0) {
-          boardData[row][col] = playerOne;
-          playerOne = -playerOne; //Switch between Plyr1 n Plyr 2
-          //Using unary negation operator (playerOne becomes negative)
-          //equivalent to multiplying 'playerOne' by -1
-          console.log('vs player');
-          drawMarker();
-          checkResult();
-           else {
-            console.log("cell is full! 2");
-           }
-          }
-          if (swingTurnsX === true){
-            turnsText.innerHTML = (`Player 2 <br> Next turn O`);
-            swingTurnsX = false;
-            
-          } else {
-            turnsText.innerHTML = (`Player 1 <br> Next turn X`);
-            swingTurnsX;
-
-          if(swingTurnsO === true){
-            turnsText.innerHTML = (`Player 2 <br> Next turn O`);
-            swingTurnsO = false; 
-          } else {
-            turnsText.innerHTML = (`Player 1 <br> Next turn X`);
-            swingTurnsO; 
-          }
-          
-          
-          if (resetGrid()){ //NEEDS TO CHECK BACK, CURRENTLY TESTING!!
-            if(permanentTurns){
-              turns;
-            } else if(!permanentTurns){
-              !turns;
-            }
-          }
-           }
-          } 
